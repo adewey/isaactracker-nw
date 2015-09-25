@@ -1,0 +1,12 @@
+node_modules
+*.log
+.DS_Store
+Thumbs.db
+/build/
+/releases/
+/tmp/
+
+/config/
+/resources/
+/tasks/
+gulpfile.js

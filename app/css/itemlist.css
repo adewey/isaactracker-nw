@@ -1,0 +1,31 @@
+
+ul.item-list {
+    list-style: none;
+    overflow: hidden;
+    padding: 0;
+    max-height: 400px;
+    margin-top: 5px;
+}
+
+ul.item-list li.in {
+    display: inline-block;
+}
+
+ul.item-list li {
+    float: left;
+    border: 1px solid transparent;
+}
+
+ul.item-list li.active {
+    border: 1px solid red;
+    border-radius: 3px;
+}
+
+.tooltip-inner {
+    padding:10px;
+    max-width: 350px;
+}
+
+.tooltip-inner h4 {
+    font-weight: bold;
+}

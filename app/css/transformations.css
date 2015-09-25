@@ -1,0 +1,24 @@
+
+
+.player {
+    position: fixed;
+    top: 20px;
+    left: 225px;
+    width: 64px;
+}
+
+.guppy {
+    position: fixed;
+    width: 28px;
+    height: 32px;
+    top: 48px;
+    left: 294px;
+}
+
+.fly {
+    position: fixed;
+    width: 28px;
+    height: 32px;
+    top: 48px;
+    left: 336px;
+}

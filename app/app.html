@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>isaactracker v2.0</title>
+    <!--
+    <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
+    -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/app.css" rel="stylesheet">
+    <link href="./css/itemlist.css" rel="stylesheet">
+    <link href="./css/stagelist.css" rel="stylesheet">
+    <link href="./css/transformations.css" rel="stylesheet">
+    <!-- Scripts giving you few extra things in NW.js -->
+    <script src="./vendor/nw-boilerplate/window_state.js"></script>
+    <script src="./vendor/nw-boilerplate/context_menu.js"></script>
+    <script src="./vendor/nw-boilerplate/external_links.js"></script>
+    <script src="./vendor/nw-boilerplate/dev_helper.js"></script>
+    <script src="./vendor/nw-boilerplate/env_config.js"></script>
+
+    <script src="./js/jquery-2.1.4.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/isaactracker.js"></script>
+
+    <script>
+        (function () {
+            var gui = require('nw.gui');
+            var win = gui.Window.get();
+
+            // Create default menu items for OSX
+            if (process.platform === 'darwin') {
+                var mb = new gui.Menu({ type: "menubar" });
+                mb.createMacBuiltin(gui.App.manifest.productName);
+                win.menu = mb;
+            }
+            //gui stuff
+            win.on('loaded', function() {
+                $('#exit-button').on('click', function() {
+                    win.close();
+                });
+                $('#minimize-button').on('click', function() {
+                    win.minimize();
+                });
+            });
+
+            win.on('close', function() {
+                this.hide();
+                this.close(true);
+            });
+        }());
+    </script>
+</head>
+<body>
+    <header class="title"></header>
+    <span class="refresh button hidden" id="refresh-button" data-toggle="tooltip" data-placement="bottom" title="refresh log"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></span>
+    <span class="minimize button" id="minimize-button" data-toggle="tooltip" data-placement="bottom" title="minimize"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></span>
+    <span class="exit button" id="exit-button" data-toggle="tooltip" data-placement="bottom" title="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
+    <img src="gfx/ui/stage/playerportraitbig_01_isaac.png" title="" class="player" />
+    <img src="gfx/IsaacTracker/guppyProgress/0_3.png" class="guppy transformation"/>
+    <img src="gfx/IsaacTracker/flyLordProgress/0_3.png" class="fly transformation"/>
+    <section class="main-container">
+        <div class="col-xs-11">
+            <span class="text-muted">Seed: <span id="seed" class="text-danger text-bold"></span></span>
+        </div>
+        <div class="col-xs-11">
+            <!-- make this a fixed height, and if there are more than x items, auto carousel -->
+            <ul class="item-list"></ul>
+        </div>
+        <div class="col-xs-1">
+            <ul class="stage-list pull-right">
+                <!-- this needs re-working -->
+                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
+                    <span class="isaac"></span>
+                    <span class="basement-i"></span>
+                    <span class="cellar-i"></span>
+                </li>
+                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
+                    <span class="isaac"></span>
+                    <span class="basement-ii"></span>
+                    <span class="cellar-ii"></span>
+                </li>
+                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
+                    <span class="isaac"></span>
+                    <span class="caves-i"></span>
+                    <span class="catacombs-i"></span>
+                </li>
+                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
+                    <span class="isaac"></span>
+                    <span class="caves-ii"></span>
+                    <span class="catacombs-ii"></span>
+                </li>
+                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
+                    <span class="isaac"></span>
+                    <span class="depths-i"></span>
+                    <span class="necropolis-i"></span>
+                </li>
+                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
+                    <span class="isaac"></span>
+                    <span class="depths-ii"></span>
+                    <span class="necropolis-ii"></span>
+                </li>
+                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
+                    <span class="isaac"></span>
+                    <span class="womb-i"></span>
+                    <span class="utero-i"></span>
+                </li>
+                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
+                    <span class="isaac"></span>
+                    <span class="womb-ii"></span>
+                    <span class="utero-ii"></span>
+                </li>
+                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
+                    <span class="isaac"></span>
+                    <span class="cathedral"></span>
+                    <span class="sheol"></span>
+                </li>
+                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
+                    <span class="isaac"></span>
+                    <span class="chest"></span>
+                    <span class="darkroom"></span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <script>
+        var makeToolTip = function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+        var executeCopy = function (text) {
+            var input = document.createElement('textarea');
+            document.body.appendChild(input);
+            input.value = text;
+            input.focus();
+            input.select();
+            document.execCommand('Copy');
+            input.remove();
+        };
+        $(function () {
+            makeToolTip();
+            $('#seed').on('click', function(e) {
+                e.preventDefault();
+                executeCopy($(this).html());
+            });
+        })
+    </script>
+    <script src="./js/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://localhost:27462'),
+            stage_floors = [" XL", " II", " I"];
+
+        socket.on('newGame', function (seed) {
+            $('#seed').html(seed);
+            $('.item-list').html('');
+            $('.stage').removeClass('in');
+            $('.stage').removeClass('alt');
+            $('.stage').attr('data-original-title', '');
+        });
+        
+        var current_stage, current_floor;
+        var set_stage = function (stage, floor, xl) {
+            xl = xl || 0;
+            current_stage = stage;
+            current_floor = floor;
+
+            $('.stage').removeClass('in');
+            var stage_element = $($('.stage')[floor - 1]);
+            
+            var stage_title = stage.name;
+            if (floor < 9) {
+                stage_title += stage_floors[1 + (floor % 2) - xl];
+            } 
+            stage_element.attr('data-original-title', stage_title);
+            
+            if (Number(stage.id) % 2 == 0) {
+                stage_element.addClass('alt');
+            }
+            stage_element.addClass('in');
+            
+            if (xl) {
+                stage_element.addClass('xl');
+            }
+            makeToolTip();
+        };
+        socket.on('updateStage', set_stage);
+        
+        socket.on('touchedItem', function (item) {
+            if (item.state == "active") {
+                return;
+            }
+            var tempHolder = "";
+            tempHolder += "<li class='" + item.state +"'>";
+            tempHolder += '<img src="gfx/items/collectibles2x/' + item.gfx + '" data-id="' + item.id + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<h4>' + item.name + '</h4><h5>' + item.description + '</h5>" />';
+            tempHolder += "</li>";
+            $('.item-list').append(tempHolder);
+            makeToolTip();
+        });
+        
+        socket.on('updatePlayer', function (player) {
+            if (player && player.bigportrait) {
+                $('.player').attr("src", "gfx/ui/stage/" + player.bigportrait);
+            }
+        });
+        
+        socket.on('updateCurse', function (curse) {
+            if (curse.indexOf('Labyrinth') != -1) {
+                $('.stage.in').attr('data-original-title', '');
+                set_stage(current_stage, current_floor + 1, true);
+            }
+        });
+        
+        socket.on('updateGuppy', function(guppy) {
+            $('.guppy').attr("src","gfx/IsaacTracker/guppyProgress/" + guppy + "_3.png");
+        });
+        
+        socket.on('updateLoF', function(lof) {
+            $('.fly').attr("src","gfx/IsaacTracker/flyLordProgress/" + lof + "_3.png");
+        });
+    </script>
+</body>
+</html>
