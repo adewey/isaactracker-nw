@@ -1,5 +1,7 @@
-/* Sticky footer styles
--------------------------------------------------- */
+@font-face {
+    font-family: upheavtt;
+    src: url('../fonts/upheavtt.ttf');
+}
 
 html, body {
     overflow: hidden;
@@ -11,11 +13,11 @@ html, body {
 
 * {
     -webkit-user-select: none;
-    cursor: default;
+    z-index: 0;
 }
 
 section.main-container {
-    padding: 0 52px 52px 52px;
+    padding: 52px;
     overflow: hidden;
 }
 
@@ -28,52 +30,51 @@ section.main-container {
     padding: 0;
 }
 
-@font-face {
-    font-family: upheavtt;
-    src: url('../fonts/upheavtt.ttf');
-}
-
-.upheaval {
-    font-family: upheavtt;
-}
-
 body {
     background: url("../gfx/gemini-bg.png");
 }
 
-.title {
-    width: calc(100% - 140px);
-    height: 52px;
-    content: " ";
-    cursor: move;
-    -webkit-app-region: drag !important;
+.button-container {
+    z-index: 10;
+    position: fixed;
+    top: 46px;
+    right: 65px;
+    display: inline-block;
 }
 
-.glyphicon,  #seed {
+span.glyphicon.glyphicon-minus {
+    position: relative;
+    top: 6px;
+}
+
+.text-muted {
+    cursor: default;
+}
+
+.lg {
+    min-width: 112px;
+}
+
+#seed {
     cursor: pointer;
 }
 
+.button:hover {
+    background-color: rgba(169, 68, 66, 1);	
+}
+
 .button {
-    color: #2C2C2C;
-    z-index: 10;
-    text-shadow: 1px 1px #CE2F2C, -1px -1px #CE2F2C, 1px -1px #CE2F2C, -1px 1px #CE2F2C;
-}
-
-.refresh {
-    position: fixed;
-    right: 120px;
-    top: 40px;
-    font-size: 18px;
-}
-
-.minimize {
-    position: fixed;
-    right: 90px;
-    top: 44px;
-}
-
-.exit {
-    position: fixed;
-    right: 60px;
-    top: 40px;
+    cursor: pointer;
+    color: #111;
+    /*
+    background-color: rgba(0, 0, 0, 0.55);
+    border-radius: 3px;
+    border: 4px solid #111;
+    */
+    text-shadow: 1px 1px #a94442, -1px -1px #a94442, 1px -1px #a94442, -1px 1px #a94442;
+    line-height: 16px;
+    padding: 2px;
+    display: inline-block;
+    text-align: center;
+    width: 28px;
 }

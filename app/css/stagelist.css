@@ -1,9 +1,8 @@
 
 ul.stage-list {
-    margin: 0;
+    margin: 5px 5px 0 0;
     padding: 0;
     list-style: none;
-    margin-right: 5px;
 }
 
 ul.stage-list li {
@@ -42,6 +41,23 @@ ul.stage-list li.stage span.overlay {
     z-index: 1;
 }
 
+ul.stage-list li.stage.xl:before {
+    content: "XL";
+    color: #111;
+    padding-left: 2px;
+    font-size: 10px;
+    line-height: 7px;
+    position: absolute;
+    display: inline-block;
+    width: 22px;
+    height: 15px;
+    background-color: #A94442;
+    border: 4px solid #111;
+    border-radius: 3px;
+    left: 22px;
+    top: -7px;
+}
+
 span.basement-i, span.basement-ii, span.basement-xl,
 span.cellar-i, span.cellar-ii, span.cellar-xl,
 span.caves-i, span.caves-ii, span.caves-xl,
@@ -58,6 +74,7 @@ span.cathedral, span.sheol, span.chest, span.darkroom {
     margin: 0;
     padding: 0;
     position: absolute;
+    z-index: 1;
 }
           
 span.basement-i, span.basement-ii {

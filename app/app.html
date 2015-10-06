@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>isaactracker v2.0</title>
+    <title>isaactracker v2.0.1</title>
     <!--
     <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
     -->
@@ -23,9 +23,11 @@
     <script src="./js/isaactracker.js"></script>
 
     <script>
-        (function () {
+        $(function () {
             var gui = require('nw.gui');
             var win = gui.Window.get();
+            var dragging = false,
+                mouse_x, mouse_y, win_x, win_y;
 
             // Create default menu items for OSX
             if (process.platform === 'darwin') {
@@ -47,28 +49,60 @@
                 this.hide();
                 this.close(true);
             });
-        }());
+
+            $(document).on('mousemove', function (e) {
+                if (dragging) {
+                    win.x = win_x + (e.screenX - mouse_x);
+                    win.y = win_y + (e.screenY - mouse_y);
+                }
+            });
+
+            $(document).on('mouseup', function () {
+                dragging = false;
+            });
+            
+            var click_through_list = {
+                'ul': true,
+                'div': true,
+            };
+            //NOTE(Aaron): see if we can do this better?
+            $('*').on('mousedown', function(e) {
+                e = e.originalEvent || e;
+                e.preventDefault();
+                if (!$(e.target).hasClass('draggable') && !click_through_list[e.target.tagName.toLowerCase()]) {
+                    return e.stopPropagation(); 
+                }
+                dragging = true;
+                mouse_x = e.screenX;
+                mouse_y = e.screenY;
+                win_x = win.x;
+                win_y = win.y;
+            });
+        });
     </script>
 </head>
 <body>
-    <header class="title"></header>
-    <span class="refresh button hidden" id="refresh-button" data-toggle="tooltip" data-placement="bottom" title="refresh log"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></span>
-    <span class="minimize button" id="minimize-button" data-toggle="tooltip" data-placement="bottom" title="minimize"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></span>
-    <span class="exit button" id="exit-button" data-toggle="tooltip" data-placement="bottom" title="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
-    <img src="gfx/ui/stage/playerportraitbig_01_isaac.png" title="" class="player" />
-    <img src="gfx/IsaacTracker/guppyProgress/0_3.png" class="guppy transformation"/>
-    <img src="gfx/IsaacTracker/flyLordProgress/0_3.png" class="fly transformation"/>
-    <section class="main-container">
-        <div class="col-xs-11">
-            <span class="text-muted">Seed: <span id="seed" class="text-danger text-bold"></span></span>
+    <section class="button-container">
+        <span class="refresh button hidden" id="refresh-button" data-toggle="tooltip" data-placement="bottom" title="refresh log"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></span>
+        <span class="settings button hidden" id="refresh-button" data-toggle="tooltip" data-placement="bottom" title="settings"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></span>
+        <span class="minimize button" id="minimize-button" data-toggle="tooltip" data-placement="bottom" title="minimize"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></span>
+        <span class="exit button" id="exit-button" data-toggle="tooltip" data-placement="bottom" title="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
+    </section>
+    <section class="main-container draggable">
+        <div>
+            <span class="text-muted">Seed: 
+                <span id="seed" class="text-danger text-bold" data-toggle="tooltip" data-html="true" data-placement="top" data-title="Click to Copy!" data-clicked-title="Copied!"></span>
+                <img src="gfx/ui/stage/playerportraitbig_01_isaac.png" class="player" />
+                <img src="gfx/IsaacTracker/guppyProgress/0_3.png" class="guppy transformation" />
+                <img src="gfx/IsaacTracker/flyLordProgress/0_3.png" class="fly transformation" />
+            </span>
         </div>
         <div class="col-xs-11">
-            <!-- make this a fixed height, and if there are more than x items, auto carousel -->
             <ul class="item-list"></ul>
         </div>
         <div class="col-xs-1">
             <ul class="stage-list pull-right">
-                <!-- this needs re-working -->
+                <!-- this still needs re-working -->
                 <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
                     <span class="isaac"></span>
                     <span class="basement-i"></span>
@@ -124,10 +158,18 @@
     </section>
 
     <script>
+        var toggle = false;
         var makeToolTip = function () {
             $('[data-toggle="tooltip"]').tooltip();
-        }
-        var executeCopy = function (text) {
+        };
+        var set_title = function (element, title, make_tooltip) {
+            element.attr('data-original-title', title);
+            if (make_tooltip) {
+                makeToolTip();
+            }
+        };
+        var executeCopy = function (element) {
+            var text = element.html()
             var input = document.createElement('textarea');
             document.body.appendChild(input);
             input.value = text;
@@ -138,11 +180,20 @@
         };
         $(function () {
             makeToolTip();
+            
             $('#seed').on('click', function(e) {
+                var self = $(this);
                 e.preventDefault();
-                executeCopy($(this).html());
+                e.stopPropagation();
+                executeCopy(self);
+                var tooltip = $('#' + self.attr('aria-describedby') + ' > .tooltip-inner');
+                tooltip.addClass('lg');
+                tooltip.html(self.attr('data-clicked-title'));
+                setTimeout(function() {
+                    tooltip.html(self.attr('data-title'));
+                }, 1000);
             });
-        })
+        });
     </script>
     <script src="./js/socket.io.js"></script>
     <script>
@@ -154,6 +205,7 @@
             $('.item-list').html('');
             $('.stage').removeClass('in');
             $('.stage').removeClass('alt');
+            $('.stage').removeClass('xl');
             $('.stage').attr('data-original-title', '');
         });
         
@@ -170,7 +222,7 @@
             if (floor < 9) {
                 stage_title += stage_floors[1 + (floor % 2) - xl];
             } 
-            stage_element.attr('data-original-title', stage_title);
+            set_title(stage_element, stage_title, true);
             
             if (Number(stage.id) % 2 == 0) {
                 stage_element.addClass('alt');
@@ -180,7 +232,6 @@
             if (xl) {
                 stage_element.addClass('xl');
             }
-            makeToolTip();
         };
         socket.on('updateStage', set_stage);
         
@@ -204,7 +255,7 @@
         
         socket.on('updateCurse', function (curse) {
             if (curse.indexOf('Labyrinth') != -1) {
-                $('.stage.in').attr('data-original-title', '');
+                set_title($('.stage.in'), '', true);
                 set_stage(current_stage, current_floor + 1, true);
             }
         });
