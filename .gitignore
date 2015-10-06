@@ -5,8 +5,3 @@ Thumbs.db
 /build/
 /releases/
 /tmp/
-
-/config/
-/resources/
-/tasks/
-gulpfile.js
