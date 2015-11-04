@@ -30,6 +30,7 @@ var paths = {
         './gfx/**',
         './libs/**',
         './js/**',
+        './settings/**',
         './clr_examples/**',
     ],
 }

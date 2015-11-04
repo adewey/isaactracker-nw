@@ -26,7 +26,7 @@ ul.stage-list li.stage span.isaac {
 }
 
 ul.stage-list li.stage.in span.isaac {
-    background: url(../gfx/ui2x/stage/progress.png) -64px 316px
+    background: url(../gfx/ui2x/stage/progress.png) -66px 444px
 }
 
 ul.stage-list li.stage span.overlay {
@@ -78,40 +78,40 @@ span.cathedral, span.sheol, span.chest, span.darkroom {
 }
           
 span.basement-i, span.basement-ii {
-    background: url(../gfx/ui2x/stage/progress.png) 0px 232px
+    background: url(../gfx/ui2x/stage/progress.png) 0px 360px
 }
 span.cellar-i, span.cellar-ii {
-    background: url(../gfx/ui2x/stage/progress.png) -64px 232px
+    background: url(../gfx/ui2x/stage/progress.png) -64px 360px
 }
 span.caves-i, span.caves-ii {
-    background: url(../gfx/ui2x/stage/progress.png) -128px 232px
+    background: url(../gfx/ui2x/stage/progress.png) -128px 360px
 }
 span.catacombs-i, span.catacombs-ii {
-    background: url(../gfx/ui2x/stage/progress.png) -192px 232px
+    background: url(../gfx/ui2x/stage/progress.png) -192px 360px
 }
 span.depths-i, span.depths-ii {
-    background: url(../gfx/ui2x/stage/progress.png) 0px 168px
+    background: url(../gfx/ui2x/stage/progress.png) 0px 296px
 }
 span.necropolis-i, span.necropolis-ii {
-    background: url(../gfx/ui2x/stage/progress.png) -64px 168px
+    background: url(../gfx/ui2x/stage/progress.png) -64px 296px
 }
 span.womb-i, span.womb-ii {
-    background: url(../gfx/ui2x/stage/progress.png) -128px 168px
+    background: url(../gfx/ui2x/stage/progress.png) -128px 296px
 }
 span.utero-i, span.utero-ii {
-    background: url(../gfx/ui2x/stage/progress.png) -192px 168px
+    background: url(../gfx/ui2x/stage/progress.png) -192px 296px
 }
 span.cathedral {
-    background: url(../gfx/ui2x/stage/progress.png) -64px 104px
+    background: url(../gfx/ui2x/stage/progress.png) -64px 232px
 }
 span.sheol {
-    background: url(../gfx/ui2x/stage/progress.png) 0px 104px
+    background: url(../gfx/ui2x/stage/progress.png) 0px 232px
 }
 span.chest {
-    background: url(../gfx/ui2x/stage/progress.png) -128px 104px
+    background: url(../gfx/ui2x/stage/progress.png) -128px 232px
 }
 span.darkroom {
-    background: url(../gfx/ui2x/stage/progress.png) -192px 104px
+    background: url(../gfx/ui2x/stage/progress.png) -192px 232px
 }
 
 span.cellar-i, span.cellar-ii,

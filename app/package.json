@@ -2,8 +2,8 @@
   "name": "isaactracker",
   "main": "app.html",
   "productName": "isaactracker",
-  "version": "2.0.1",
-  "description": "An item tracker for The Binding of Isaac: Rebirth.",
+  "version": "2.1.0",
+  "description": "An item tracker for The Binding of Isaac: Afterbirth.",
   "window": {
     "icon": "favicon.ico",
     "frame": false,
