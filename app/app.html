@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>isaactracker v2.1.0</title>
+    <title>isaactracker v2.1.1</title>
     <!--
     <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
     -->
@@ -12,6 +12,12 @@
     <link href="./css/stagelist.css" rel="stylesheet">
     <link href="./css/transformations.css" rel="stylesheet">
     <!-- Scripts giving you few extra things in NW.js -->
+    <script>
+        var gui = require('nw.gui');
+        var win = gui.Window.get();
+        global.dataPath = gui.App.dataPath;
+        global.settings = require('./libs/settings');
+    </script>
     <script src="./vendor/nw-boilerplate/window_state.js"></script>
     <script src="./vendor/nw-boilerplate/context_menu.js"></script>
     <script src="./vendor/nw-boilerplate/external_links.js"></script>
@@ -24,8 +30,6 @@
 
     <script>
         $(function () {
-            var gui = require('nw.gui');
-            var win = gui.Window.get();
             
             var dragging = false,
                 mouse_x, mouse_y, win_x, win_y;
@@ -69,10 +73,10 @@
             //NOTE(Aaron): see if we can do this better?
             $('*').on('mousedown', function(e) {
                 e = e.originalEvent || e;
-                e.preventDefault();
                 if (!$(e.target).hasClass('draggable') && !click_through_list[e.target.tagName.toLowerCase()]) {
                     return e.stopPropagation(); 
                 }
+                e.preventDefault();
                 dragging = true;
                 mouse_x = e.screenX;
                 mouse_y = e.screenY;
@@ -85,7 +89,7 @@
 <body>
     <section class="button-container">
         <span class="refresh button hidden" id="refresh-button" data-toggle="tooltip" data-placement="bottom" title="refresh log"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></span>
-        <span class="settings button hidden" id="refresh-button" data-toggle="tooltip" data-placement="bottom" title="settings"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></span>
+        <span class="settings button" id="settings-button" data-toggle="tooltip" data-placement="bottom" title="settings"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></span>
         <span class="minimize button" id="minimize-button" data-toggle="tooltip" data-placement="bottom" title="minimize"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></span>
         <span class="exit button" id="exit-button" data-toggle="tooltip" data-placement="bottom" title="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
     </section>
@@ -93,9 +97,9 @@
         <div>
             <span class="text-muted">Seed: 
                 <span id="seed" class="text-danger text-bold" data-toggle="tooltip" data-html="true" data-placement="top" data-title="Click to Copy!" data-clicked-title="Copied!"></span>
-                <img src="gfx/ui/stage/playerportraitbig_01_isaac.png" class="player" />
-                <img src="gfx/IsaacTracker/guppyProgress/0_3.png" class="guppy transformation" />
-                <img src="gfx/IsaacTracker/flyLordProgress/0_3.png" class="fly transformation" />
+                <div class="transformation-container">
+                    <img src="gfx/ui/stage/playerportraitbig_01_isaac.png" class="player" />
+                </div>
             </span>
         </div>
         <div class="col-xs-11">
@@ -156,7 +160,40 @@
                 </li>
             </ul>
         </div>
+        <div class="modal fade" id="settings-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="settings-form">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Settings</h4>
+                        </div>
+                        <div class="modal-body">
+                                <!--
+                                <label for="upload_data">
+                                    Upload Data
+                                </label>
+                                <input type="checkbox" id="upload_data" name="upload_data" />
+                                <label for="isaactracker_key">
+                                    isaactracker.com Key
+                                </label>
+                                <input type="text" id="isaactracker_key" name="isaactracker_key" />
+                                -->
+                                <label for="display_spacebar_items">
+                                    Display Spacebar Items
+                                </label>
+                                <input type="checkbox" id="display_spacebar_items" name="display_spacebar_items" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" name="sumit">Save changes</button>
+                        </div>
+                    <form>
+                </div>
+            </div>
+        </div>
     </section>
+
 
     <script>
         var toggle = false;
@@ -181,7 +218,19 @@
         };
         $(function () {
             makeToolTip();
-            
+            $('#settings-button').on('click', function(e) {
+                for (var setting_name in global.settings.get()) {
+                    var setting_value = global.settings.get(setting_name);
+                    var new_setting = $('#' + setting_name);
+                    if (new_setting.prop('type') == "checkbox") {
+                        new_setting.prop('checked', setting_value);
+                    }
+                    else {
+                        new_setting.val(setting_value);
+                    }
+                }
+                $('#settings-modal').modal('show');
+            });
             $('#seed').on('click', function(e) {
                 var self = $(this);
                 e.preventDefault();
@@ -193,6 +242,20 @@
                 setTimeout(function() {
                     tooltip.html(self.attr('data-title'));
                 }, 1000);
+            });
+            $('#settings-form').on('submit', function(e) {
+                e.preventDefault();
+                for (var setting_name in global.settings.get()) {
+                    var new_setting = $('#' + setting_name);
+                    if (new_setting.prop('type') == "checkbox") {
+                        global.settings.set(setting_name, new_setting.prop('checked'));
+                    }
+                    else {
+                        global.settings.set(setting_name, new_setting.val());
+                    }
+                }
+                global.settings.save();
+                $('#settings-modal').modal('hide');
             });
         });
     </script>
@@ -208,6 +271,7 @@
             $('.stage').removeClass('alt');
             $('.stage').removeClass('xl');
             $('.stage').attr('data-original-title', '');
+            $('.transformation').remove();
         });
         
         var current_stage, current_floor;
@@ -237,11 +301,23 @@
         socket.on('updateStage', set_stage);
         
         socket.on('touchedItem', function (item) {
-            if (item.state == "active") {
+            if (!global.settings.get('display_spacebar_items') && item.state == "active") {
+                return;
+            }
+            var li_item = $('#item-' + item.id);
+            if (li_item.length > 0) {
+                if (item.state == "active") {
+                    //move to end of list
+                    li_item.parent().append(li_item);
+                }
+                else {
+                    //increase item counter, as we can have multiples of the same item now.
+                    //todo
+                }
                 return;
             }
             var tempHolder = "";
-            tempHolder += "<li class='" + item.state +"'>";
+            tempHolder += "<li class='" + item.state +"' id='item-" + item.id + "'>";
             tempHolder += '<img src="gfx/items/collectibles2x/' + item.gfx + '" data-id="' + item.id + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<h4>' + item.name + '</h4><h5>' + item.description + '</h5>" />';
             tempHolder += "</li>";
             $('.item-list').append(tempHolder);
@@ -261,12 +337,17 @@
             }
         });
         
-        socket.on('updateGuppy', function(guppy) {
-            $('.guppy').attr("src","gfx/IsaacTracker/guppyProgress/" + guppy + "_3.png");
-        });
-        
-        socket.on('updateLoF', function(lof) {
-            $('.fly').attr("src","gfx/IsaacTracker/flyLordProgress/" + lof + "_3.png");
+        socket.on('updateTransformation', function(transformation_info) {
+            var c = 'one';
+            if (transformation_info.count == 2) {
+                c = 'two';
+            }
+            else if (transformation_info.count == 3) {
+                c = 'three';
+            } else if (transformation_info.count ==1) {
+                $('.transformation-container').append('<span class="' + transformation_info.transformation + ' transformation"></span>');
+            }
+            $('.' + transformation_info.transformation).addClass(c);
         });
     </script>
 </body>

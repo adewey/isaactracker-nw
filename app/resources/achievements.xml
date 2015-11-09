@@ -497,5 +497,6 @@
 	<achievement gfx="Achievement_Challenge28.png" id="272" steam_description="" steam_icon="Achievement_PrideDay.png" steam_name="PRIDE DAY!" text="You unlocked Challenge #28 PRIDE DAY!" />
 	<achievement gfx="Achievement_Challenge29.png" id="273" steam_description="" steam_icon="Achievement_OnansStreak.png" steam_name="Onan's Streak" text="You unlocked Challenge #29 Onan's Streak" />
 	<achievement gfx="Achievement_Challenge30.png" id="274" steam_description="" steam_icon="Achievement_TheGuardian.png" steam_name="The Guardian" text="You unlocked Challenge #30 The Guardian" />
+	<achievement gfx="Achievement_Generosity.png" id="275" steam_description="..." steam_icon="" steam_name="Generosity" text="If only everyone was as generous as you are..." />
 
 </achievements>

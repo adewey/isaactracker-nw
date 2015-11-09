@@ -1,24 +1,153 @@
 
+.transformation-container {
+    position: fixed;
+    top: 44px;
+    left: 216px;
+}
+
 
 .player {
-    position: fixed;
-    top: 20px;
-    left: 225px;
     width: 64px;
+    height: 64px;
+    margin: -28px 4px 0;
 }
 
-.guppy {
-    position: fixed;
-    width: 28px;
+.transformation.one:after {
+    content: "";
+    display: inline-block;
+    width: 32px;
     height: 32px;
-    top: 48px;
-    left: 294px;
+    position: absolute;
+    top: -4px;
 }
 
-.fly {
-    position: fixed;
-    width: 28px;
+.transformation.one {
+    width: 32px;
     height: 32px;
-    top: 48px;
-    left: 336px;
+}
+
+.transformation.two {
+}
+
+.transformation.three, .transformation.three:after {
+    opacity: 1;
+}
+
+.transformation {
+    width: 0;
+    height: 0;
+    display: inline-block;
+    opacity: 0.5;
+    position: relative;
+}
+
+.angel.one {
+    width: 64px;
+    height: 64px;
+    margin: -16px;
+}
+.angel.one:after {
+    background: url("../gfx/characters/costumes/transformation_angel_head.png");
+    width: 64px;
+    height: 64px;
+    top: -8px;
+}
+.angel.two {
+    background: url("../gfx/characters/costumes/transformation_angel_body.png");
+    width: 64px;
+    height: 64px;
+}
+
+.baby.one:after {
+    background: url("../gfx/characters/costumes/transformation_baby.png");
+    width: 64px;
+    height: 64px;
+    margin: -16px;
+}
+.baby.two {
+    background: url("../gfx/characters/costumes/transformation_baby_body.png") 0px -58px;
+}
+
+.bob.one:after {
+    background: url("../gfx/characters/costumes/transformation_bob_head.png");
+    width: 64px;
+    height: 64px;
+    margin: -16px;
+}
+.bob.two {
+    background: url("../gfx/characters/costumes/transformation_bob_body.png") 0px -58px;
+}
+
+.drugs.one:after {
+    background: url("../gfx/characters/costumes/transformation_drugs_head.png");
+    width: 64px;
+    height: 64px;
+    margin: -16px;
+}
+.drugs.two {
+    background: url("../gfx/characters/costumes/transformation_drugs_body.png") 0px -58px;
+}
+
+.evilangel.one {
+    width: 64px;
+    height: 64px;
+    margin: -16px;
+}
+.evilangel.one:after {
+    background: url("../gfx/characters/costumes/transformation_evilangel_head.png");
+    width: 64px;
+    height: 64px;
+}
+.evilangel.two {
+    background: url("../gfx/characters/costumes/transformation_evilangel_body.png") 0px -10px;
+    width: 64px;
+    height: 64px;
+}
+
+.guppy.one:after {
+    background: url("../gfx/characters/costumes/costume_guppyhead.png") 0px 34px;
+}
+.guppy.two {
+    background: url("../gfx/characters/costumes/costume_guppy body.png") 0px -56px;
+}
+
+.lordoftheflies.one {
+    top: 4px;
+}
+.lordoftheflies.one:after {
+    background: url("../gfx/characters/costumes/costume_rebirth_69_lordoftheflieshead.png");
+    top: -10px;
+}
+.lordoftheflies.two {
+    background: url("../gfx/characters/costumes/costume_263_lordofthefliesbody.png");
+}
+
+.mom.one:after {
+    background: url("../gfx/characters/costumes/transformation_angel_head.png");
+    width: 64px;
+    height: 64px;
+    margin: -16px;
+}
+.mom.two {
+    background: url("../gfx/characters/costumes/transformation_mom.png") 0px -58px;
+}
+
+.mushroom.one:after {
+    background: url("../gfx/characters/costumes/transformation_mushroom_head.png");
+    width: 64px;
+    height: 64px;
+    margin: -16px;
+}
+.mushroom.two {
+    background: url("../gfx/characters/costumes/transformation_mushroom_body.png") 0px -58px;
+}
+
+.poop.one:after {
+    background: url("../gfx/characters/costumes/transformation_poop_head.png");
+    width: 64px;
+    height: 64px;
+    margin: -16px;
+}
+.poop.two {
+    background: url("../gfx/characters/costumes/transformation_poop_body.png") 0px -58px;
 }

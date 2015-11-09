@@ -57,6 +57,7 @@ span.glyphicon.glyphicon-minus {
 
 #seed {
     cursor: pointer;
+    min-width: 120px;
 }
 
 .button:hover {
@@ -78,3 +79,24 @@ span.glyphicon.glyphicon-minus {
     text-align: center;
     width: 28px;
 }
+
+#settings-form input {
+    -webkit-user-select: initial;
+    max-width: 300px;
+}
+
+#settings-form input[type="checkbox"] {
+    position: relative;
+    top: 2px;
+}
+
+#settings-form input[type="text"] {
+    padding-left: 4px;
+}
+
+#settings-form label {
+    width: 50%;
+    display: inline-block;
+    text-align: right;
+}
+
