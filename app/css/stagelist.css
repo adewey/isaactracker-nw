@@ -26,7 +26,9 @@ ul.stage-list li.stage span.isaac {
 }
 
 ul.stage-list li.stage.in span.isaac {
-    background: url(../gfx/ui2x/stage/progress.png) -66px 444px
+    background: url(../gfx/ui/stage/progress.png) -66px 444px;
+    background-size: 256px 512px;
+    image-rendering: pixelated;
 }
 
 ul.stage-list li.stage span.overlay {
@@ -78,40 +80,64 @@ span.cathedral, span.sheol, span.chest, span.darkroom {
 }
           
 span.basement-i, span.basement-ii {
-    background: url(../gfx/ui2x/stage/progress.png) 0px 360px
+    background: url(../gfx/ui/stage/progress.png) 0px 360px;
+    background-size: 256px 512px;
+    image-rendering: pixelated;
 }
 span.cellar-i, span.cellar-ii {
-    background: url(../gfx/ui2x/stage/progress.png) -64px 360px
+    background: url(../gfx/ui/stage/progress.png) -64px 360px;
+    background-size: 256px 512px;
+    image-rendering: pixelated;
 }
 span.caves-i, span.caves-ii {
-    background: url(../gfx/ui2x/stage/progress.png) -128px 360px
+    background: url(../gfx/ui/stage/progress.png) -128px 360px;
+    background-size: 256px 512px;
+    image-rendering: pixelated;
 }
 span.catacombs-i, span.catacombs-ii {
-    background: url(../gfx/ui2x/stage/progress.png) -192px 360px
+    background: url(../gfx/ui/stage/progress.png) -192px 360px;
+    background-size: 256px 512px;
+    image-rendering: pixelated;
 }
 span.depths-i, span.depths-ii {
-    background: url(../gfx/ui2x/stage/progress.png) 0px 296px
+    background: url(../gfx/ui/stage/progress.png) 0px 296px;
+    background-size: 256px 512px;
+    image-rendering: pixelated;
 }
 span.necropolis-i, span.necropolis-ii {
-    background: url(../gfx/ui2x/stage/progress.png) -64px 296px
+    background: url(../gfx/ui/stage/progress.png) -64px 296px;
+    background-size: 256px 512px;
+    image-rendering: pixelated;
 }
 span.womb-i, span.womb-ii {
-    background: url(../gfx/ui2x/stage/progress.png) -128px 296px
+    background: url(../gfx/ui/stage/progress.png) -128px 296px;
+    background-size: 256px 512px;
+    image-rendering: pixelated;
 }
 span.utero-i, span.utero-ii {
-    background: url(../gfx/ui2x/stage/progress.png) -192px 296px
+    background: url(../gfx/ui/stage/progress.png) -192px 296px;
+    background-size: 256px 512px;
+    image-rendering: pixelated;
 }
 span.cathedral {
-    background: url(../gfx/ui2x/stage/progress.png) -64px 232px
+    background: url(../gfx/ui/stage/progress.png) -64px 232px;
+    background-size: 256px 512px;
+    image-rendering: pixelated;
 }
 span.sheol {
-    background: url(../gfx/ui2x/stage/progress.png) 0px 232px
+    background: url(../gfx/ui/stage/progress.png) 0px 232px;
+    background-size: 256px 512px;
+    image-rendering: pixelated;
 }
 span.chest {
-    background: url(../gfx/ui2x/stage/progress.png) -128px 232px
+    background: url(../gfx/ui/stage/progress.png) -128px 232px;
+    background-size: 256px 512px;
+    image-rendering: pixelated;
 }
 span.darkroom {
-    background: url(../gfx/ui2x/stage/progress.png) -192px 232px
+    background: url(../gfx/ui/stage/progress.png) -192px 232px;
+    background-size: 256px 512px;
+    image-rendering: pixelated;
 }
 
 span.cellar-i, span.cellar-ii,
@@ -129,5 +155,6 @@ li.alt span.sheol,  li.alt span.darkroom {
 }
                                     
 .xl span.basement-i, .xl span.caves-i, .xl span.depths-i, .xl span.womb-i {
-    background: url(../gfx/ui2x/stage/progress.png) 128px 362px;
+    background: url(../gfx/ui2stage/progress.png) 128px 362px;
+    background-size: 256px 512px;
 }

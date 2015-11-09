@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>isaactracker v2.1.1</title>
+    <title>isaactracker v2.1.2</title>
     <!--
     <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
     -->
@@ -318,7 +318,7 @@
             }
             var tempHolder = "";
             tempHolder += "<li class='" + item.state +"' id='item-" + item.id + "'>";
-            tempHolder += '<img src="gfx/items/collectibles2x/' + item.gfx + '" data-id="' + item.id + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<h4>' + item.name + '</h4><h5>' + item.description + '</h5>" />';
+            tempHolder += '<img src="gfx/items/collectibles/' + item.gfx + '" data-id="' + item.id + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<h4>' + item.name + '</h4><h5>' + item.description + '</h5>" />';
             tempHolder += "</li>";
             $('.item-list').append(tempHolder);
             makeToolTip();
