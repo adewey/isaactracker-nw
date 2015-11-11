@@ -3,21 +3,9 @@
 var fs = require('fs-extra');
 
 module.exports = new function() {
-    var self = this,
-        settings_file = global.dataPath + "/settings.json";
-
-    try {
-        self.settings = fs.readJSONFileSync(settings_file);
-    }
-    catch(e) {
-        console.log(e);
-        self.settings = {
-            'upload_data': false,
-            'isaactracker_key': '',
-            'display_spacebar_items': false,
-        };
-    }
-
+    var self = this;
+    self.settings = {};
+    
     self.get = function(setting) {
         if (!setting) {
             return self.settings;
@@ -30,8 +18,25 @@ module.exports = new function() {
     };
     
     self.save = function() {
-        fs.writeJSONFileSync(settings_file, self.settings);
+        fs.writeJSONFileSync(self.dataPath, self.settings);
     };
     
+    self.init = function(dataPath) {
+        self.dataPath = dataPath + "/settings.json";
+        try {
+            self.settings = fs.readJSONFileSync(self.dataPath);
+        }
+        catch(e) {
+            console.log(e);
+            self.settings = {
+                'upload_data': false,
+                'isaactracker_key': '',
+                'display_spacebar_items': false,
+                'check_for_updates': true,
+                'automatically_update': false,
+            };
+        }
+        return self;
+    };
     return self;
 };
