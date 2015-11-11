@@ -60,8 +60,25 @@ span.glyphicon.glyphicon-minus {
     min-width: 120px;
 }
 
+.form-control-feedback {
+    top: 0;
+    right: 35px;
+    width: auto;
+    height: auto;
+    font-size: 10px;
+    color: #a94442;
+}
+
 .button:hover {
     background-color: rgba(169, 68, 66, 1);	
+}
+
+#settings-button span.badge {
+    position: absolute;
+    top: -5px;
+    left: 12px;
+    font-weight: normal;
+    border: 1px solid black;
 }
 
 .button {
