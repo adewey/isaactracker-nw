@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>isaactracker v2.1.2</title>
+    <title>isaactracker</title>
     <!--
     <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
     -->
@@ -12,12 +12,6 @@
     <link href="./css/stagelist.css" rel="stylesheet">
     <link href="./css/transformations.css" rel="stylesheet">
     <!-- Scripts giving you few extra things in NW.js -->
-    <script>
-        var gui = require('nw.gui');
-        var win = gui.Window.get();
-        global.dataPath = gui.App.dataPath;
-        global.settings = require('./libs/settings');
-    </script>
     <script src="./vendor/nw-boilerplate/window_state.js"></script>
     <script src="./vendor/nw-boilerplate/context_menu.js"></script>
     <script src="./vendor/nw-boilerplate/external_links.js"></script>
@@ -26,70 +20,11 @@
 
     <script src="./js/jquery-2.1.4.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
-    <script src="./js/isaactracker.js"></script>
-
-    <script>
-        $(function () {
-            
-            var dragging = false,
-                mouse_x, mouse_y, win_x, win_y;
-
-            // Create default menu items for OSX
-            if (process.platform === 'darwin') {
-                var mb = new gui.Menu({ type: "menubar" });
-                mb.createMacBuiltin(gui.App.manifest.productName);
-                win.menu = mb;
-            }
-            //gui stuff
-            win.on('loaded', function() {
-                $('#exit-button').on('click', function() {
-                    win.close();
-                });
-                $('#minimize-button').on('click', function() {
-                    win.minimize();
-                });
-            });
-
-            win.on('close', function() {
-                this.hide();
-                this.close(true);
-            });
-
-            $(document).on('mousemove', function (e) {
-                if (dragging) {
-                    win.x = win_x + (e.screenX - mouse_x);
-                    win.y = win_y + (e.screenY - mouse_y);
-                }
-            });
-
-            $(document).on('mouseup', function () {
-                dragging = false;
-            });
-            
-            var click_through_list = {
-                'ul': true,
-                'div': true,
-            };
-            //NOTE(Aaron): see if we can do this better?
-            $('*').on('mousedown', function(e) {
-                e = e.originalEvent || e;
-                if (!$(e.target).hasClass('draggable') && !click_through_list[e.target.tagName.toLowerCase()]) {
-                    return e.stopPropagation(); 
-                }
-                e.preventDefault();
-                dragging = true;
-                mouse_x = e.screenX;
-                mouse_y = e.screenY;
-                win_x = win.x;
-                win_y = win.y;
-            });
-        });
-    </script>
 </head>
 <body>
     <section class="button-container">
         <span class="refresh button hidden" id="refresh-button" data-toggle="tooltip" data-placement="bottom" title="refresh log"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></span>
-        <span class="settings button" id="settings-button" data-toggle="tooltip" data-placement="bottom" title="settings"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></span>
+        <span class="settings button" id="settings-button" data-toggle="tooltip" data-placement="bottom" title="settings"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span><span class="badge hidden">!</span></span>
         <span class="minimize button" id="minimize-button" data-toggle="tooltip" data-placement="bottom" title="minimize"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></span>
         <span class="exit button" id="exit-button" data-toggle="tooltip" data-placement="bottom" title="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
     </section>
@@ -183,6 +118,25 @@
                                     Display Spacebar Items
                                 </label>
                                 <input type="checkbox" id="display_spacebar_items" name="display_spacebar_items" />
+                                <label for="check_for_updates">
+                                    Check for updates
+                                </label>
+                                <input type="checkbox" id="check_for_updates" name="check_for_updates" />
+                                <!-- todo(dither): implement auto updates, we can download the tar.gz file from github and unzip, then override data automatically
+                                <label for="automatically_update">
+                                    Automatically Update
+                                </label>
+                                <input type="checkbox" id="automatically_update" name="automatically_update" />
+                                -->
+                                <div class="form-group has-feedback">
+                                    <label for="version">
+                                        Latest Version
+                                    </label>
+                                    <input type="text" class="disabled" disabled="disabled" id="version" name="version" value="" />
+                                    <a id="download-link" class="form-control-feedback js-external-link">
+                                        <!-- todo(dither): replace this link with a background downloader or popup -->
+                                    </a>
+                                </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -193,10 +147,67 @@
             </div>
         </div>
     </section>
-
-
     <script>
-        var toggle = false;
+        var gui = require('nw.gui');
+        var win = gui.Window.get(),
+            settings = require('./libs/settings').init(gui.App.dataPath);
+        document.title = gui.App.manifest.name + " " + gui.App.manifest.version;
+        $(function () {
+            
+            var dragging = false,
+                mouse_x, mouse_y, win_x, win_y;
+
+            // Create default menu items for OSX
+            if (process.platform === 'darwin') {
+                var mb = new gui.Menu({ type: "menubar" });
+                mb.createMacBuiltin(gui.App.manifest.productName);
+                win.menu = mb;
+            }
+            //gui stuff
+            win.on('loaded', function() {
+                $('#exit-button').on('click', function() {
+                    win.close();
+                });
+                $('#minimize-button').on('click', function() {
+                    win.minimize();
+                });
+            });
+
+            win.on('close', function() {
+                this.hide();
+                this.close(true);
+            });
+
+            $(document).on('mousemove', function (e) {
+                if (dragging) {
+                    win.x = win_x + (e.screenX - mouse_x);
+                    win.y = win_y + (e.screenY - mouse_y);
+                }
+            });
+
+            $(document).on('mouseup', function () {
+                dragging = false;
+            });
+            
+            var click_through_list = {
+                'ul': true,
+                'div': true,
+            };
+            //NOTE(Aaron): see if we can do this better?
+            $('*').on('mousedown', function(e) {
+                e = e.originalEvent || e;
+                if (!$(e.target).hasClass('draggable') && !click_through_list[e.target.tagName.toLowerCase()]) {
+                    return e.stopPropagation(); 
+                }
+                e.preventDefault();
+                dragging = true;
+                mouse_x = e.screenX;
+                mouse_y = e.screenY;
+                win_x = win.x;
+                win_y = win.y;
+            });
+        });
+        
         var makeToolTip = function () {
             $('[data-toggle="tooltip"]').tooltip();
         };
@@ -206,21 +217,42 @@
                 makeToolTip();
             }
         };
-        var executeCopy = function (element) {
-            var text = element.html()
+        
+        //settings and copy related
+        var execute_copy = function (element) {
             var input = document.createElement('textarea');
             document.body.appendChild(input);
-            input.value = text;
+            input.value = element.html();
             input.focus();
             input.select();
             document.execCommand('Copy');
             input.remove();
         };
+        
+        var check_for_updates = function() {
+            if (settings.get('check_for_updates')) {
+                $.ajax({
+                    url: 'https://api.github.com/repos/adewey/isaactracker-nw/releases/latest',
+                    success: function(resp) {
+                        var version = resp.tag_name;
+                        $('#version').val(version);
+                        if (version != gui.App.manifest.version) {
+                            $('#download-link').html('Download Latest Version');
+                            $('#download-link').attr('href', resp.html_url);
+                            $('#settings-button span.badge').removeClass('hidden');
+                        };
+                    },
+                    error: function(resp) {
+                        console.log("error: ", resp);
+                    },
+                });
+            }
+        };
         $(function () {
-            makeToolTip();
+            check_for_updates();
             $('#settings-button').on('click', function(e) {
-                for (var setting_name in global.settings.get()) {
-                    var setting_value = global.settings.get(setting_name);
+                for (var setting_name in settings.get()) {
+                    var setting_value = settings.get(setting_name);
                     var new_setting = $('#' + setting_name);
                     if (new_setting.prop('type') == "checkbox") {
                         new_setting.prop('checked', setting_value);
@@ -235,7 +267,7 @@
                 var self = $(this);
                 e.preventDefault();
                 e.stopPropagation();
-                executeCopy(self);
+                execute_copy(self);
                 var tooltip = $('#' + self.attr('aria-describedby') + ' > .tooltip-inner');
                 tooltip.addClass('lg');
                 tooltip.html(self.attr('data-clicked-title'));
@@ -245,36 +277,35 @@
             });
             $('#settings-form').on('submit', function(e) {
                 e.preventDefault();
-                for (var setting_name in global.settings.get()) {
+                for (var setting_name in settings.get()) {
                     var new_setting = $('#' + setting_name);
                     if (new_setting.prop('type') == "checkbox") {
-                        global.settings.set(setting_name, new_setting.prop('checked'));
+                        settings.set(setting_name, new_setting.prop('checked'));
                     }
                     else {
-                        global.settings.set(setting_name, new_setting.val());
+                        settings.set(setting_name, new_setting.val());
                     }
                 }
-                global.settings.save();
+                settings.save();
+                check_for_updates();
                 $('#settings-modal').modal('hide');
             });
-        });
-    </script>
-    <script src="./js/socket.io.js"></script>
-    <script>
-        var socket = io.connect('http://localhost:27462'),
-            stage_floors = [" XL", " II", " I"];
-
-        socket.on('newGame', function (seed) {
-            $('#seed').html(seed);
-            $('.item-list').html('');
-            $('.stage').removeClass('in');
-            $('.stage').removeClass('alt');
-            $('.stage').removeClass('xl');
-            $('.stage').attr('data-original-title', '');
-            $('.transformation').remove();
+            makeToolTip();
         });
         
-        var current_stage, current_floor;
+        // tracker related
+        var items = require('./libs/items'),
+            players = require('./libs/players'),
+            stages = require('./libs/stages');
+
+        var isaac_tracker = require('isaac-log-tracker');
+
+        var active_touches = [],
+            transformations = {},
+            stage_floors = [" XL", " II", " I"],
+            current_stage,
+            current_floor;
+        
         var set_stage = function (stage, floor, xl) {
             xl = xl || 0;
             current_stage = stage;
@@ -298,10 +329,34 @@
                 stage_element.addClass('xl');
             }
         };
-        socket.on('updateStage', set_stage);
-        
-        socket.on('touchedItem', function (item) {
-            if (!global.settings.get('display_spacebar_items') && item.state == "active") {
+
+        isaac_tracker.on('seedEvent', function(raw, seed) {
+            active_touches = [];
+            transformations = {};
+            $('#seed').html(seed);
+            $('.item-list').html('');
+            $('.stage').removeClass('in');
+            $('.stage').removeClass('alt');
+            $('.stage').removeClass('xl');
+            $('.stage').attr('data-original-title', '');
+            $('.transformation').remove();
+        });
+
+        isaac_tracker.on('playerEvent', function (raw, player_id) {
+            var player = players(player_id || 0);
+            if (player && player.bigportrait) {
+                $('.player').attr("src", "gfx/ui/stage/" + player.bigportrait.toLowerCase());
+            }
+        });
+
+        isaac_tracker.on('levelEvent', function (raw, floor, stage, alternate) {
+            set_stage(stages(stage), floor);
+        });
+
+        isaac_tracker.on('collectibleEvent', function (raw, item_id, item_name) {
+            var item = items(item_id);
+            
+            if (!settings.get('display_spacebar_items') && item.state == "active") {
                 return;
             }
             var li_item = $('#item-' + item.id);
@@ -318,36 +373,43 @@
             }
             var tempHolder = "";
             tempHolder += "<li class='" + item.state +"' id='item-" + item.id + "'>";
-            tempHolder += '<img src="gfx/items/collectibles/' + item.gfx + '" data-id="' + item.id + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<h4>' + item.name + '</h4><h5>' + item.description + '</h5>" />';
+            tempHolder += '<img src="gfx/items/collectibles/' + item.gfx.toLowerCase() + '" data-id="' + item.id + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<h4>' + item.name + '</h4><h5>' + item.description + '</h5>" />';
             tempHolder += "</li>";
             $('.item-list').append(tempHolder);
+            
+            if (item.transformation) {
+                if (item.state != "active" || (item.state == "active" && active_touches[item.id] == undefined)) {
+                    if (item.state == "active") {
+                        active_touches[item.id] = active_touches[item.id] || 0;
+                        active_touches[item.id]++;
+                    }
+                    transformations[item.transformation] = transformations[item.transformation] || 0;
+                    transformations[item.transformation]++;
+                    if (transformations[item.transformation] <= 3) {
+                        var transformation = item.transformation,
+                            count = transformations[item.transformation];
+                        
+                        var c = 'one';
+                        if (count == 2) {
+                            c = 'two';
+                        }
+                        else if (count == 3) {
+                            c = 'three';
+                        } else if (count == 1) {
+                            $('.transformation-container').append('<span class="' + transformation + ' transformation"></span>');
+                        }
+                        $('.' + transformation).addClass(c);
+                    }
+                }
+            }
             makeToolTip();
         });
-        
-        socket.on('updatePlayer', function (player) {
-            if (player && player.bigportrait) {
-                $('.player').attr("src", "gfx/ui/stage/" + player.bigportrait);
-            }
-        });
-        
-        socket.on('updateCurse', function (curse) {
+
+        isaac_tracker.on('curseEvent', function (raw, curse) {
             if (curse.indexOf('Labyrinth') != -1) {
                 set_title($('.stage.in'), '', true);
                 set_stage(current_stage, current_floor + 1, true);
             }
-        });
-        
-        socket.on('updateTransformation', function(transformation_info) {
-            var c = 'one';
-            if (transformation_info.count == 2) {
-                c = 'two';
-            }
-            else if (transformation_info.count == 3) {
-                c = 'three';
-            } else if (transformation_info.count ==1) {
-                $('.transformation-container').append('<span class="' + transformation_info.transformation + ' transformation"></span>');
-            }
-            $('.' + transformation_info.transformation).addClass(c);
         });
     </script>
 </body>
