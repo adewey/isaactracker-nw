@@ -442,6 +442,8 @@
 	<passive cache="firedelay" description="Memories..." gfx="Collectibles_438_Binky.png" id="438" name="Binky" soulhearts="2" />
 	<active cache="all" description="Whats inside?" gfx="Collectibles_439_MomsBox.png" id="439" maxcharges="4" name="Mom's Box" />
 	<passive achievement="233" cache="range speed firedelay" description="Matt's Kidney Stone" gfx="Collectibles_440_KidneyStone.png" id="440" name="Kidney Stone" />
+	<active achievement="276" description="Laser Breath" gfx="collectibles_441_megasatansbreath.png" id="441" maxcharges="12" name="Mega Blast" />
+	
 	<trinket achievement="101" description="Gulp!" gfx="trinket_001_swallowedpenny.png" id="1" name="Swallowed Penny" />
 	<trinket description="It feels lucky?" gfx="trinket_002_petrifiedpoop.png" id="2" name="Petrified Poop" />
 	<trinket description="Trickle charge" gfx="trinket_003_aaabattery.png" id="3" name="AAA Battery" />
@@ -527,6 +529,7 @@
 	<trinket achievement="185" description="Blind to damage" gfx="trinket_081_BlindRage.png" id="81" name="Blind Rage" />
 	<trinket description="Feel lucky?" gfx="trinket_082_GoldenHorseShoe.png" id="82" name="Golden Horse Shoe" />
 	
+	<trinket achievement="249" description="Stores are open" gfx="trinket_083_storekey.png" id="83" name="Store Key" />
 	<trinket description="the poop is moving..." gfx="Trinket_086_LilLarva.png" id="86" name="Lil Larva" />
 	<trinket description="you feel her love" gfx="Trinket_087_MomsLocket.png" id="87" name="Mom's Locket" />
 	<trinket description="Never again!" gfx="Trinket_088_NO.png" id="88" name="NO!" />
