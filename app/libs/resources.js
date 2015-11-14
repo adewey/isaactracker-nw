@@ -5,7 +5,6 @@ var parser = require('node-xml-lite');
 var itemsFile = parser.parseFileSync('./resources/items.xml');
 var playersFile = parser.parseFileSync('./resources/players.xml');
 var stagesFile = parser.parseFileSync('./resources/stages.xml');
-var achievementsFile = parser.parseFileSync('./resources/achievements.xml');
 var cursesFile = parser.parseFileSync('./resources/curses.xml');
 
 var resources = {
@@ -78,14 +77,6 @@ var curses = cursesFile.childs;
 for (var i = 0; i < curses.length; i++) {
     var curse = curses[i];
     resources.curses[curse['attrib']['id']] = curse['attrib'];
-}
-
-var achievements = achievementsFile.childs;
-for (var i = 0; i < stages.length; i++) {
-    var achievement = achievements[i];
-    if (achievement['attrib']['gfx'])
-        achievement['attrib']['gfx'] = achievement['attrib']['gfx'].toLowerCase()
-    resources.achievements[achievement['attrib']['id']] = achievement['attrib'];
 }
 
 module.exports = resources;
