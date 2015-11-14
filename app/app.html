@@ -23,10 +23,10 @@
 </head>
 <body>
     <section class="button-container">
-        <span class="refresh button hidden" id="refresh-button" data-toggle="tooltip" data-placement="bottom" title="refresh log"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></span>
-        <span class="settings button" id="settings-button" data-toggle="tooltip" data-placement="bottom" title="settings"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span><span class="badge hidden">!</span></span>
-        <span class="minimize button" id="minimize-button" data-toggle="tooltip" data-placement="bottom" title="minimize"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></span>
-        <span class="exit button" id="exit-button" data-toggle="tooltip" data-placement="bottom" title="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
+        <span class="refresh button hidden" id="refresh-button" data-toggle="tooltip" data-placement="bottom" title="refresh log"><span class="glyphicon glyphicon-refresh"></span></span>
+        <span class="settings button" id="settings-button" data-toggle="tooltip" data-placement="bottom" title="settings"><span class="glyphicon glyphicon-cog"></span><span class="badge hidden">!</span></span>
+        <span class="minimize button" id="minimize-button" data-toggle="tooltip" data-placement="bottom" title="minimize"><span class="glyphicon glyphicon-minus"></span></span>
+        <span class="exit button" id="exit-button" data-toggle="tooltip" data-placement="bottom" title="close"><span class="glyphicon glyphicon-remove"></span></span>
     </section>
     <section class="main-container draggable">
         <div>
@@ -100,39 +100,49 @@
                 <div class="modal-content">
                     <form id="settings-form">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                             <h4 class="modal-title">Settings</h4>
                         </div>
                         <div class="modal-body">
-                                <!--
-                                <label for="upload_data">
-                                    Upload Data
-                                </label>
-                                <input type="checkbox" id="upload_data" name="upload_data" />
-                                <label for="isaactracker_key">
-                                    isaactracker.com Key
-                                </label>
-                                <input type="text" id="isaactracker_key" name="isaactracker_key" />
-                                -->
-                                <label for="display_spacebar_items">
-                                    Display Spacebar Items
-                                </label>
-                                <input type="checkbox" id="display_spacebar_items" name="display_spacebar_items" />
-                                <label for="check_for_updates">
-                                    Check for updates
-                                </label>
-                                <input type="checkbox" id="check_for_updates" name="check_for_updates" />
+                                <div class="form-group">
+                                    <label for="upload_data">
+                                        Sync to isaactracker.com
+                                    </label>
+                                    <input type="checkbox" id="upload_data" name="upload_data" />
+                                </div>
+                                <div class="form-group has-feedback">
+                                    <label for="isaactracker_key">
+                                        isaactracker.com key
+                                    </label>
+                                    <a href="http://www.isaactracker.com/twitch/redirect/" class="js-external-link" id="twitch-connect"><img src="http://ttv-api.s3.amazonaws.com/assets/connect_dark.png" /></a>
+                                    <input type="text" class="disabled" disabled="disabled" id="isaactracker_key" name="isaactracker_key" value="" />
+                                    <span id="twitch-disconnect" class="form-control-feedback"><span class="badge">&times;</span></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="display_spacebar_items">
+                                        Display Spacebar Items
+                                    </label>
+                                    <input type="checkbox" id="display_spacebar_items" name="display_spacebar_items" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="check_for_updates">
+                                        Check for updates
+                                    </label>
+                                    <input type="checkbox" id="check_for_updates" name="check_for_updates" />
+                                </div>
                                 <!-- todo(dither): implement auto updates, we can download the tar.gz file from github and unzip, then override data automatically
-                                <label for="automatically_update">
-                                    Automatically Update
-                                </label>
-                                <input type="checkbox" id="automatically_update" name="automatically_update" />
+                                <div class="form-group has-feedback">
+                                    <label for="automatically_update">
+                                        Automatically Update
+                                    </label>
+                                    <input type="checkbox" id="automatically_update" name="automatically_update" />
+                                </div>
                                 -->
                                 <div class="form-group has-feedback">
                                     <label for="version">
                                         Latest Version
                                     </label>
-                                    <input type="text" class="disabled" disabled="disabled" id="version" name="version" value="" />
+                                    <input type="text" class="disabled" disabled="disabled" id="version" value="" />
                                     <a id="download-link" class="form-control-feedback js-external-link">
                                         <!-- todo(dither): replace this link with a background downloader or popup -->
                                     </a>
@@ -140,17 +150,20 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name="sumit">Save changes</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
                         </div>
                     <form>
                 </div>
             </div>
         </div>
     </section>
+    <script src="./js/socket.io.js"></script>
     <script>
         var gui = require('nw.gui');
         var win = gui.Window.get(),
-            settings = require('./libs/settings').init(gui.App.dataPath);
+            settings = require('./libs/settings').init(gui.App.dataPath),
+            semver = require('semver'),
+            isaac_tracker;
         document.title = gui.App.manifest.name + " " + gui.App.manifest.version;
         $(function () {
             
@@ -236,7 +249,7 @@
                     success: function(resp) {
                         var version = resp.tag_name;
                         $('#version').val(version);
-                        if (version != gui.App.manifest.version) {
+                        if (semver.gt(version, gui.App.manifest.version)) {
                             $('#download-link').html('Download Latest Version');
                             $('#download-link').attr('href', resp.html_url);
                             $('#settings-button span.badge').removeClass('hidden');
@@ -261,7 +274,27 @@
                         new_setting.val(setting_value);
                     }
                 }
+                if (settings.get('isaactracker_key')) {
+                    $('#twitch-connect').hide();
+                    $('#twitch-disconnect').show();
+                    $('#twitch-disconnect').show();
+                    $('#isaactracker_key').show();
+                }
+                else {
+                    $('#twitch-connect').show();
+                    $('#twitch-disconnect').hide();
+                    $('#isaactracker_key').hide();
+                }
+                
                 $('#settings-modal').modal('show');
+            });
+            $('#twitch-disconnect').on('click', function(e) {
+                $('#twitch-connect').show();
+                $('#twitch-disconnect').hide();
+                $('#isaactracker_key').val('');
+                $('#isaactracker_key').hide();
+                settings.set('isaactracker_key', undefined);
+                settings.save();
             });
             $('#seed').on('click', function(e) {
                 var self = $(this);
@@ -277,7 +310,11 @@
             });
             $('#settings-form').on('submit', function(e) {
                 e.preventDefault();
-                for (var setting_name in settings.get()) {
+                for(var i = 0; i < this.elements.length; i++){
+                    var setting_name = this.elements[i].name;
+                    if (!setting_name) {
+                        continue;
+                    }
                     var new_setting = $('#' + setting_name);
                     if (new_setting.prop('type') == "checkbox") {
                         settings.set(setting_name, new_setting.prop('checked'));
@@ -291,6 +328,7 @@
                 $('#settings-modal').modal('hide');
             });
             makeToolTip();
+            isaac_log_tracker.start();
         });
         
         // tracker related
@@ -298,8 +336,48 @@
             players = require('./libs/players'),
             stages = require('./libs/stages');
 
-        var isaac_tracker = require('isaac-log-tracker');
-
+        var isaac_log_tracker = require('isaac-log-tracker'),
+            isaac_tracker;
+        
+        var should_update = function() {
+            if (!settings.get('upload_data') || !settings.get('isaactracker_key')) {
+                return false;
+            }
+            return true;
+        };
+        
+        var message_queue = [];
+        var handle_messages = function() {
+            if (message_queue.length == 0 || !should_update()) {
+                return;
+            }
+            var jsonObj = message_queue.shift();
+            try {
+                isaac_tracker.emit('update', jsonObj);
+            }
+            catch(e) {
+                console.log(e);
+                if (isaac_tracker) {
+                    isaac_tracker.close()
+                    isaac_tracker = isaac_tracker.destroy();
+                }
+                isaac_tracker = io.connect('http://io.isaactracker.com');
+                isaac_tracker.emit('update', jsonObj);
+            }
+        };
+        setInterval(handle_messages, 1000);
+        
+        var send_message = function(event, data) {
+            if (!should_update()) {
+                return;
+            }
+            var jsonObj = data || {};
+            jsonObj.stream_key = settings.get('isaactracker_key');
+            jsonObj.version = gui.App.manifest.version;
+            jsonObj.event = event;
+            message_queue.push(jsonObj);
+        };
+        
         var active_touches = [],
             transformations = {},
             stage_floors = [" XL", " II", " I"],
@@ -330,7 +408,8 @@
             }
         };
 
-        isaac_tracker.on('seedEvent', function(raw, seed) {
+        isaac_log_tracker.on('seedEvent', function(raw, seed) {
+            send_message('seedEvent', {seed: seed});
             active_touches = [];
             transformations = {};
             $('#seed').html(seed);
@@ -342,23 +421,26 @@
             $('.transformation').remove();
         });
 
-        isaac_tracker.on('playerEvent', function (raw, player_id) {
+        isaac_log_tracker.on('playerEvent', function(raw, player_id) {
+            send_message('playerEvent', {player_id: player_id});
             var player = players(player_id || 0);
             if (player && player.bigportrait) {
                 $('.player').attr("src", "gfx/ui/stage/" + player.bigportrait.toLowerCase());
             }
         });
 
-        isaac_tracker.on('levelEvent', function (raw, floor, stage, alternate) {
+        isaac_log_tracker.on('levelEvent', function(raw, floor, stage, stage_type) {
+            send_message('levelEvent', {floor: floor, stage: stage, stage_type: stage_type});
             set_stage(stages(stage), floor);
         });
 
-        isaac_tracker.on('collectibleEvent', function (raw, item_id, item_name) {
+        isaac_log_tracker.on('collectibleEvent', function(raw, item_id, item_name) {
             var item = items(item_id);
             
             if (!settings.get('display_spacebar_items') && item.state == "active") {
                 return;
             }
+            send_message('collectibleEvent', {item_id: item_id});
             var li_item = $('#item-' + item.id);
             if (li_item.length > 0) {
                 if (item.state == "active") {
@@ -405,12 +487,37 @@
             makeToolTip();
         });
 
-        isaac_tracker.on('curseEvent', function (raw, curse) {
+        isaac_log_tracker.on('curseEvent', function(raw, curse) {
+            send_message('curseEvent', {curse: curse});
             if (curse.indexOf('Labyrinth') != -1) {
                 set_title($('.stage.in'), '', true);
                 set_stage(current_stage, current_floor + 1, true);
             }
         });
+        
+        //twitch connect logic
+        var socket_io;
+        $('#twitch-connect').click(function() {
+            if (socket_io) {
+                socket_io.close();
+            }
+            socket_io = require('socket.io')(27462);
+            socket_io.on('connection', function(client) {
+                client.on('register', function(isaactracker_key) {
+                    settings.set('isaactracker_key', isaactracker_key);
+                    settings.save();
+                    $('#twitch-connect').hide();
+                    $('#twitch-disconnect').show();
+                    $('#isaactracker_key').val(isaactracker_key);
+                    $('#isaactracker_key').show();
+                    socket_io.close();
+                    window.focus();
+                });
+                client.on('disconnect', function() {
+                    socket_io.close();
+                });
+            });
+        })
     </script>
 </body>
 </html>
