@@ -7,7 +7,7 @@
 	<player bigportrait="PlayerPortraitBig_05_Eve.png" costume="10" hp="4" id="5" items="122,117" name="Eve" nameimage="PlayerName_05_Eve.png" portrait="PlayerPortrait_05_Eve.png" skin="Character_005_Eve.png" skinColor="-1" />
 	<player bigportrait="PlayerPortraitBig_07_Samson.png" costume="13" hp="6" id="6" items="157" name="Samson" nameimage="PlayerName_07_Samson.png" portrait="PlayerPortrait_07_Samson.png" skin="Character_007_Samson.png" skinColor="-1" />
 	<player bigportrait="PlayerPortraitBig_08_Azazel.png" black="6" card="1" costume="11" hp="0" id="7" name="Azazel" nameimage="PlayerName_08_Azazel.png" portrait="PlayerPortrait_08_Azazel.png" skin="Character_008_Azazel.png" skinColor="1" />
-	<player bigportrait="PlayerPortraitBig_09_Lazarus.png" hp="6" id="8" name="Lazarus" nameimage="PlayerName_10_Lazarus.png" pill="1" portrait="PlayerPortrait_09_Lazarus.png" skin="Character_009_Lazarus.png" skinColor="-1" />
+	<player bigportrait="PlayerPortraitBig_09_Lazarus.png" costume="32" hp="6" id="8" name="Lazarus" nameimage="PlayerName_10_Lazarus.png" pill="1" portrait="PlayerPortrait_09_Lazarus.png" skin="Character_009_Lazarus.png" skinColor="-1" />
 	<player bigportrait="PlayerPortraitBig_09_Eden.png" costume="12" id="9" name="Eden" nameimage="PlayerName_09_Eden.png" portrait="PlayerPortrait_09_Eden.png" skin="Character_009_Eden.png" skinColor="-1">
 		<hair gfx="Character_009_EdenHair1.png" />
 		<hair gfx="Character_009_EdenHair2.png" />
@@ -21,7 +21,7 @@
 		<hair gfx="Character_009_EdenHair10.png" />
 	</player>
 	<player armor="1" bigportrait="PlayerPortraitBig_12_TheLost.png" coins="1" hp="0" id="10" items="284" name="The Lost" nameimage="PlayerName_12_TheLost.png" portrait="PlayerPortrait_12_TheLost.png" skin="Character_012_TheLost.png" skinColor="0" />
-	<player bigportrait="PlayerPortraitBig_10_Lazarus2.png" hp="2" id="11" items="214" name="Lazarus II" nameimage="PlayerName_10_Lazarus.png" portrait="PlayerPortrait_10_Lazarus2.png" skin="Character_010_Lazarus2.png" skinColor="-1" />
+	<player bigportrait="PlayerPortraitBig_10_Lazarus2.png" costume="33" hp="2" id="11" items="214" name="Lazarus II" nameimage="PlayerName_10_Lazarus.png" portrait="PlayerPortrait_10_Lazarus2.png" skin="Character_010_Lazarus2.png" skinColor="-1" />
 	<player bigportrait="PlayerPortraitBig_BlackJudas.png" black="4" id="12" name="Black Judas" nameimage="PlayerName_04_Judas.png" portrait="PlayerPortrait_BlackJudas.png" skin="Character_013_BlackJudas.png" skinColor="1" />
-	<player bigportrait="PlayerPortraitBig_Lilith.png" black="4" canShoot="false" hp="2" id="13" items="357,412" name="Lilith" nameimage="PlayerName_13_Lilith.png" portrait="PlayerPortrait_13_Lilith.png" skin="Character_014_Lilith.png" skinColor="1" />
-</players>
+	<player bigportrait="PlayerPortraitBig_Lilith.png" black="4" canShoot="false" costume="34" hp="2" id="13" items="357,412" name="Lilith" nameimage="PlayerName_13_Lilith.png" portrait="PlayerPortrait_13_Lilith.png" skin="Character_014_Lilith.png" skinColor="1" />
+	</players>
