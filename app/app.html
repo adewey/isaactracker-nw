@@ -41,59 +41,7 @@
             <ul class="item-list"></ul>
         </div>
         <div class="col-xs-1">
-            <ul class="stage-list pull-right">
-                <!-- this still needs re-working -->
-                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
-                    <span class="isaac"></span>
-                    <span class="basement-i"></span>
-                    <span class="cellar-i"></span>
-                </li>
-                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
-                    <span class="isaac"></span>
-                    <span class="basement-ii"></span>
-                    <span class="cellar-ii"></span>
-                </li>
-                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
-                    <span class="isaac"></span>
-                    <span class="caves-i"></span>
-                    <span class="catacombs-i"></span>
-                </li>
-                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
-                    <span class="isaac"></span>
-                    <span class="caves-ii"></span>
-                    <span class="catacombs-ii"></span>
-                </li>
-                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
-                    <span class="isaac"></span>
-                    <span class="depths-i"></span>
-                    <span class="necropolis-i"></span>
-                </li>
-                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
-                    <span class="isaac"></span>
-                    <span class="depths-ii"></span>
-                    <span class="necropolis-ii"></span>
-                </li>
-                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
-                    <span class="isaac"></span>
-                    <span class="womb-i"></span>
-                    <span class="utero-i"></span>
-                </li>
-                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
-                    <span class="isaac"></span>
-                    <span class="womb-ii"></span>
-                    <span class="utero-ii"></span>
-                </li>
-                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
-                    <span class="isaac"></span>
-                    <span class="cathedral"></span>
-                    <span class="sheol"></span>
-                </li>
-                <li class="stage" data-toggle="tooltip" data-html="true" data-placement="left">
-                    <span class="isaac"></span>
-                    <span class="chest"></span>
-                    <span class="darkroom"></span>
-                </li>
-            </ul>
+            <ul class="stage-list pull-right"></ul>
         </div>
         <div class="modal fade" id="settings-modal" tabindex="-1" role="dialog">
             <div class="modal-dialog">
@@ -385,6 +333,14 @@
             current_floor;
         
         var set_stage = function (stage, floor, xl) {
+            var stage_id = Number(stage.id);
+            if (stage_id == 25 || (stage_id < 18 && floor > 6)) {
+                $('.stage-list').append('<li class="stage"></li>');
+            }
+            if (stage_id == 13) {
+                // normalize stage name..
+                stage.name = "Blue Womb";
+            }
             xl = xl || 0;
             current_stage = stage;
             current_floor = floor;
@@ -397,10 +353,7 @@
                 stage_title += stage_floors[1 + (floor % 2) - xl];
             } 
             set_title(stage_element, stage_title, true);
-            
-            if (Number(stage.id) % 2 == 0) {
-                stage_element.addClass('alt');
-            }
+            stage_element.addClass(stage.name.toLowerCase().replace(" ", "-"));
             stage_element.addClass('in');
             
             if (xl) {
@@ -414,24 +367,26 @@
             transformations = {};
             $('#seed').html(seed);
             $('.item-list').html('');
-            $('.stage').removeClass('in');
-            $('.stage').removeClass('alt');
-            $('.stage').removeClass('xl');
-            $('.stage').attr('data-original-title', '');
             $('.transformation').remove();
+            // setup stage stuff
+            $('.stage-list').html('');
+            for(var i=0; i < 6; i++) {
+                $('.stage-list').append('<li class="stage"></li>');
+            }
         });
 
         isaac_log_tracker.on('playerEvent', function(raw, player_id) {
-            send_message('playerEvent', {player_id: player_id});
             var player = players(player_id || 0);
+            send_message('playerEvent', {player: player});
             if (player && player.bigportrait) {
                 $('.player').attr("src", "gfx/ui/stage/" + player.bigportrait.toLowerCase());
             }
         });
 
-        isaac_log_tracker.on('levelEvent', function(raw, floor, stage, stage_type) {
+        isaac_log_tracker.on('levelEvent', function(raw, floor, stage_id, stage_type) {
+            var stage = stages(stage_id);
             send_message('levelEvent', {floor: floor, stage: stage, stage_type: stage_type});
-            set_stage(stages(stage), floor);
+            set_stage(stage, floor);
         });
 
         isaac_log_tracker.on('collectibleEvent', function(raw, item_id, item_name) {
@@ -440,7 +395,7 @@
             if (!settings.get('display_spacebar_items') && item.state == "active") {
                 return;
             }
-            send_message('collectibleEvent', {item_id: item_id});
+            send_message('collectibleEvent', {item: item});
             var li_item = $('#item-' + item.id);
             if (li_item.length > 0) {
                 if (item.state == "active") {

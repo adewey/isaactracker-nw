@@ -15,7 +15,6 @@ var resources = {
     curses: [],
 };
 
-//todo(dither): implement other transformations
 var angel_list = ['33', '72', '101', '156', '185', '313'],
     baby_list = ['8', '67', '100', '167', '268', '269', '322'],
     bob_list = ['42', '140', '149', '273'],
@@ -54,6 +53,9 @@ for (var i = 0; i < items.length; i++) {
         item['attrib']['transformation'] = 'poop';
     if (superbum_list.indexOf(item['attrib']['id']) != -1)
         item['attrib']['transformation'] = 'superbum';
+    
+    if (item['attrib']['gfx'])
+        item['attrib']['gfx'] = item['attrib']['gfx'].toLowerCase()
     resources.items[item['attrib']['id']] = item['attrib'];
 }
 
@@ -70,6 +72,7 @@ for (var i = 0; i < players.length; i++) {
 var stages = stagesFile.childs;
 for (var i = 0; i < stages.length; i++) {
     var stage = stages[i];
+    stage['attrib']['slug'] = stage['attrib']['name'].toLowerCase().replace(" ", "-");
     resources.stages[stage['attrib']['id']] = stage['attrib'];
 }
 
