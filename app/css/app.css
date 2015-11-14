@@ -99,7 +99,7 @@ span.glyphicon.glyphicon-minus {
 
 #settings-form input {
     -webkit-user-select: initial;
-    max-width: 300px;
+    max-width: 250px;
 }
 
 #settings-form input[type="checkbox"] {
@@ -109,11 +109,24 @@ span.glyphicon.glyphicon-minus {
 
 #settings-form input[type="text"] {
     padding-left: 4px;
+    padding-right: 32px;
 }
 
 #settings-form label {
     width: 50%;
+    height: 36px;
+    line-height: 36px;
     display: inline-block;
     text-align: right;
 }
 
+#twitch-disconnect .badge {
+    color: #111;
+    background-color: #a94442;
+    padding-right: 6px;
+    cursor: pointer;
+}
+
+.form-group {
+    height: 36px;
+}
