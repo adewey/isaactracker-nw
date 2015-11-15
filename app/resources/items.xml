@@ -417,6 +417,7 @@
 	<passive achievement="222" description="Feed them love" gfx="Collectibles_413_ImmaculateConception.png" id="413" name="Immaculate Conception" />
 	<passive description="There are even more options!" gfx="Collectibles_414_MoreOptions.png" id="414" name="More Options" />
 	<passive cache="damage shotspeed range" description="The untainted gain power" gfx="Collectibles_415_CrownOfLight.png" id="415" name="Crown Of Light" soulhearts="4" />
+	<passive achievement="238" description="More stuff to carry!" gfx="Collectibles_416_deeppockets.png" id="416" name="Deep Pockets" />
 	<familiar achievement="221" description="Damage booster" gfx="Collectibles_417_Succubus.png" id="417" name="Succubus" />
 	
 	<passive description="Rainbow Effects!" gfx="Collectibles_418_FruitCake.png" id="418" name="Fruit Cake" />
@@ -530,6 +531,9 @@
 	<trinket description="Feel lucky?" gfx="trinket_082_GoldenHorseShoe.png" id="82" name="Golden Horse Shoe" />
 	
 	<trinket achievement="249" description="Stores are open" gfx="trinket_083_storekey.png" id="83" name="Store Key" />
+	<trinket achievement="204" description="Feels greedy" gfx="trinket_084_ribofgreed.png" id="84" name="Rib of Greed" />
+	<trinket achievement="239" description="Karma up" gfx="trinket_085_karma.png" id="85" name="Karma" />
+	
 	<trinket description="the poop is moving..." gfx="Trinket_086_LilLarva.png" id="86" name="Lil Larva" />
 	<trinket description="you feel her love" gfx="Trinket_087_MomsLocket.png" id="87" name="Mom's Locket" />
 	<trinket description="Never again!" gfx="Trinket_088_NO.png" id="88" name="NO!" />

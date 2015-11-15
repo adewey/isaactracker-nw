@@ -313,7 +313,7 @@
                 isaac_tracker.emit('update', jsonObj);
             }
         };
-        setInterval(handle_messages, 1000);
+        setInterval(handle_messages, 500);
         
         var send_message = function(event, data) {
             if (!should_update()) {
