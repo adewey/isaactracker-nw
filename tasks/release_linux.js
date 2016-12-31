@@ -37,7 +37,7 @@ var copyBuiltApp = function () {
 var packToFile = function () {
     var deferred = Q.defer();
 
-    var fileName = packName;
+    var fileName = packName + ".nw";
     var path = releasesDir.path(fileName);
 
     gulpUtil.log('Creating package...');
@@ -46,10 +46,10 @@ var packToFile = function () {
     var appSize = Math.round(readyAppDir.inspectTree('.').size / 1024);
 
     // Build the package...
-    childProcess.exec('zip -r ' + packDir.path() + '.nw ' + path,
+    childProcess.exec('zip -r ' + path + ' ' + packDir.path(),
         function (error, stdout, stderr) {
             if (error || stderr) {
-                console.log("ERROR while building DEB package:");
+                console.log("ERROR while building linux package:");
                 console.log(error);
                 console.log(stderr);
             } else {
