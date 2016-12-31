@@ -27,6 +27,10 @@ var init = function () {
     return Q();
 };
 
+var copyRuntime = function () {
+    return projectDir.copyAsync('node_modules/nw/nwjs', readyAppDir.path(), { overwrite: true });
+};
+
 var copyBuiltApp = function () {
     return projectDir.copyAsync('build', readyAppDir.path(), { overwrite: true });
 };
@@ -66,6 +70,7 @@ var cleanClutter = function () {
 
 module.exports = function () {
     return init()
+    .then(copyRuntime)
     .then(copyBuiltApp)
     .then(packToFile)
     .then(cleanClutter);
