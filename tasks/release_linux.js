@@ -48,7 +48,7 @@ var packToFile = function () {
     var appSize = Math.round(readyAppDir.inspectTree('.').size / 1024);
 
     // Build the zip...
-    childProcess.execSync('zip ' + zipPath + ' ' + packDir.path());
+    childProcess.execSync('zip ' + zipPath + ' ' + readyAppDir.path());
     childProcess.execSync('cat '+ nw.findpath() + ' ' + zipPath + ' > ' + outPath + ' && chmod +x ' + outPath,
         function (error, stdout, stderr) {
             if (error || stderr) {
