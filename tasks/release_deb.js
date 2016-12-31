@@ -34,26 +34,52 @@ var copyBuiltApp = function () {
     return projectDir.copyAsync('build', readyAppDir.path(), { overwrite: true });
 };
 
-var packToFile = function () {
+var prepareOsSpecificThings = function () {
+    // Create .desktop file from the template
+    var desktop = projectDir.read('resources/linux/app.desktop');
+    desktop = utils.replace(desktop, {
+        name: manifest.name,
+        productName: manifest.productName,
+        description: manifest.description,
+        version: manifest.version,
+        author: manifest.author
+    });
+    packDir.write('usr/share/applications/' + manifest.name + '.desktop', desktop);
+
+    return Q();
+};
+
+var packToDebFile = function () {
     var deferred = Q.defer();
 
-    var fileName = packName;
-    var path = releasesDir.path(fileName);
+    var debFileName = packName + '_amd64.deb';
+    var debPath = releasesDir.path(debFileName);
 
-    gulpUtil.log('Creating package...');
+    gulpUtil.log('Creating DEB package...');
 
     // Counting size of the app in KiB
     var appSize = Math.round(readyAppDir.inspectTree('.').size / 1024);
 
+    // Preparing debian control file
+    var control = projectDir.read('resources/linux/DEBIAN/control');
+    control = utils.replace(control, {
+        name: manifest.name,
+        description: manifest.description,
+        version: manifest.version,
+        author: manifest.author,
+        size: appSize
+    });
+    packDir.write('DEBIAN/control', control);
+
     // Build the package...
-    childProcess.exec('zip -r ' + packDir.path() + '.nw ' + path,
+    childProcess.exec('fakeroot dpkg-deb -Zxz --build ' + packDir.path() + ' ' + debPath,
         function (error, stdout, stderr) {
             if (error || stderr) {
                 console.log("ERROR while building DEB package:");
                 console.log(error);
                 console.log(stderr);
             } else {
-                gulpUtil.log('package ready!', path);
+                gulpUtil.log('DEB package ready!', debPath);
             }
             deferred.resolve();
         });
@@ -69,6 +95,7 @@ module.exports = function () {
     return init()
     .then(copyRuntime)
     .then(copyBuiltApp)
-    .then(packToFile)
+    .then(prepareOsSpecificThings)
+    .then(packToDebFile)
     .then(cleanClutter);
 };
