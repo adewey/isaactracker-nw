@@ -46,7 +46,7 @@ var packToFile = function () {
     var appSize = Math.round(readyAppDir.inspectTree('.').size / 1024);
 
     // Build the package...
-    childProcess.exec('zip -r ' + path + ' ' + packDir.path(),
+    childProcess.exec('cat ' + nw.findPath() + ' ' + path + ' > ' + packDir.path() + ' && chmod +x ' + packDir.path(),
         function (error, stdout, stderr) {
             if (error || stderr) {
                 console.log("ERROR while building linux package:");
