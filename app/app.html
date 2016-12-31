@@ -211,6 +211,7 @@
                 });
             }
         };
+
         $(function () {
             check_for_updates();
             $('#settings-button').on('click', function(e) {
@@ -278,7 +279,7 @@
                 $('#settings-modal').modal('hide');
             });
             makeToolTip();
-            isaaclog.start();
+            isaaclog.restart();
         });
 
         // tracker related
