@@ -25,6 +25,10 @@ module.exports = new function() {
         self.dataPath = dataPath + "/settings.json";
         try {
             self.settings = fs.readJSONFileSync(self.dataPath);
+            /* if for some reason version gets set in the settings file, ignore it completely. */
+            if (self.settings.version) {
+                delete self.settings.version;
+            }
         }
         catch(e) {
             console.log(e);

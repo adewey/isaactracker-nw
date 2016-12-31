@@ -31,7 +31,7 @@ section.main-container {
 }
 
 body {
-    background: url("../gfx/gemini-bg.png");
+    background: url("../gemini-bg.png");
 }
 
 .button-container {
@@ -129,4 +129,17 @@ span.glyphicon.glyphicon-minus {
 
 .form-group {
     height: 36px;
+}
+
+.content-left {
+    clear: none;
+    display: inline-block;
+    float: left;
+    width: 710px;
+}
+
+.content-right {
+    clear: none;
+    display: inline-block;
+    float: left;
 }

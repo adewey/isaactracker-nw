@@ -1,0 +1,478 @@
+.boss:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 32px;
+    height: 24px;
+    right: -28px;
+    top: 8px;
+    image-rendering: pixelated;
+}
+
+/*
+LTR death_bosses.png
+[7, 14] 64px x 48px
+*/
+/* row 1 */
+.larry-jr:after {
+    background: url(../resources/gfx/ui/death_bosses.png) 0px 0px;
+    background-size: 224px 350px;
+}
+
+.the-hollow:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -32px 0px;
+    background-size: 224px 350px;
+}
+
+.monstro:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -64px 0px;
+    background-size: 224px 350px;
+}
+
+.chub:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -96px 0px;
+    background-size: 224px 350px;
+}
+
+.chad:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -128px 0px;
+    background-size: 224px 350px;
+}
+
+.the-carrion-queen:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -160px 0px;
+    background-size: 224px 350px;
+}
+
+.gurdy:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -192px 0px;
+    background-size: 224px 350px;
+}
+
+/* row 2 */
+.monstro-ii:after {
+    background: url(../resources/gfx/ui/death_bosses.png) 0px -24px;
+    background-size: 224px 350px;
+}
+
+.gish:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -32px -24px;
+    background-size: 224px 350px;
+}
+
+.mom:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -64px -24px;
+    background-size: 224px 350px;
+}
+
+.sloth:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -96px -24px;
+    background-size: 224px 350px;
+}
+
+.super-sloth:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -128px -24px;
+    background-size: 224px 350px;
+}
+
+.ultra-pride:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -160px -24px;
+    background-size: 224px 350px;
+}
+
+.lust:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -192px -24px;
+    background-size: 224px 350px;
+}
+
+/* row 3 */
+.super-lust:after {
+    background: url(../resources/gfx/ui/death_bosses.png) 0px -48px;
+    background-size: 224px 350px;
+}
+
+.wrath:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -32px -48px;
+    background-size: 224px 350px;
+}
+
+.super-wrath:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -64px -48px;
+    background-size: 224px 350px;
+}
+
+.glutony:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -96px -48px;
+    background-size: 224px 350px;
+}
+
+.super-glutony:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -128px -48px;
+    background-size: 224px 350px;
+}
+
+.greed:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -160px -48px;
+    background-size: 224px 350px;
+}
+
+.super-greed:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -192px -48px;
+    background-size: 224px 350px;
+}
+
+/* row 4 */
+.unknown-1:after {
+    background: url(../resources/gfx/ui/death_bosses.png) 0px -72px;
+    background-size: 224px 350px;
+}
+
+.headless-horseman-head:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -32px -72px;
+    background-size: 224px 350px;
+}
+
+.pride:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -64px -72px;
+    background-size: 224px 350px;
+}
+
+.super-pride:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -96px -72px;
+    background-size: 224px 350px;
+}
+
+.pin:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -128px -72px;
+    background-size: 224px 350px;
+}
+
+.scolex:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -160px -72px;
+    background-size: 224px 350px;
+}
+
+.famine:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -192px -72px;
+    background-size: 224px 350px;
+}
+
+/* row 5 */
+.pestilence:after {
+    background: url(../resources/gfx/ui/death_bosses.png) 0px -96px;
+    background-size: 224px 350px;
+}
+
+.war:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -32px -96px;
+    background-size: 224px 350px;
+}
+
+.conquest:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -64px -96px;
+    background-size: 224px 350px;
+}
+
+.death:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -96px -96px;
+    background-size: 224px 350px;
+}
+
+.duke-of-flies:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -128px -96px;
+    background-size: 224px 350px;
+}
+
+.the-husk:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -160px -96px;
+    background-size: 224px 350px;
+}
+
+.peep:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -192px -96px;
+    background-size: 224px 350px;
+}
+
+/* row 6 */
+.the-bloat:after {
+    background: url(../resources/gfx/ui/death_bosses.png) 0px -120px;
+    background-size: 224px 350px;
+}
+
+.loki:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -32px -120px;
+    background-size: 224px 350px;
+}
+
+.lokii:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -64px -120px;
+    background-size: 224px 350px;
+}
+
+.fistula:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -96px -120px;
+    background-size: 224px 350px;
+}
+
+.fistula-split:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -128px -120px;
+    background-size: 224px 350px;
+}
+
+.fistula-split-more:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -160px -120px;
+    background-size: 224px 350px;
+}
+
+.teratoma:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -192px -120px;
+    background-size: 224px 350px;
+}
+
+/* row 7 */
+.teratoma-split:after {
+    background: url(../resources/gfx/ui/death_bosses.png) 0px -144px;
+    background-size: 224px 350px;
+}
+
+.teratoma-split-more:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -32px -144px;
+    background-size: 224px 350px;
+}
+
+.blastocyst:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -64px -144px;
+    background-size: 224px 350px;
+}
+
+.blastocyst-split:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -96px -144px;
+    background-size: 224px 350px;
+}
+
+.blastocyst-split-more:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -128px -144px;
+    background-size: 224px 350px;
+}
+
+.moms-heart:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -160px -144px;
+    background-size: 224px 350px;
+}
+
+.it-lives:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -192px -144px;
+    background-size: 224px 350px;
+}
+
+/* row 8 */
+.gemini:after {
+    background: url(../resources/gfx/ui/death_bosses.png) 0px -168px;
+    background-size: 224px 350px;
+}
+
+.steven:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -32px -168px;
+    background-size: 224px 350px;
+}
+
+.blighted-ovum:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -64px -168px;
+    background-size: 224px 350px;
+}
+
+.the-fallen:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -96px -168px;
+    background-size: 224px 350px;
+}
+
+.krampus:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -128px -168px;
+    background-size: 224px 350px;
+}
+
+.headless-horseman:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -160px -168px;
+    background-size: 224px 350px;
+}
+
+.satan:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -192px -168px;
+    background-size: 224px 350px;
+}
+
+/* row 9 */
+.mask-of-infamy:after {
+    background: url(../resources/gfx/ui/death_bosses.png) 0px -192px;
+    background-size: 224px 350px;
+}
+
+.gurdy-jr:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -32px -192px;
+    background-size: 224px 350px;
+}
+
+.the-widow:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -64px -192px;
+    background-size: 224px 350px;
+}
+
+.the-wretched:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -96px -192px;
+    background-size: 224px 350px;
+}
+
+.daddy-long-legs:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -128px -192px;
+    background-size: 224px 350px;
+}
+
+.triachnid:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -160px -192px;
+    background-size: 224px 350px;
+}
+
+.isaac:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -192px -192px;
+    background-size: 224px 350px;
+}
+
+/* row 10 */
+.blue-baby:after {
+    background: url(../resources/gfx/ui/death_bosses.png) 0px -216px;
+    background-size: 224px 350px;
+}
+
+.the-haunt:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -32px -216px;
+    background-size: 224px 350px;
+}
+
+.dingle:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -64px -216px;
+    background-size: 224px 350px;
+}
+
+.mega-maw:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -96px -216px;
+    background-size: 224px 350px;
+}
+
+.mega-maw-ii:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -128px -216px;
+    background-size: 224px 350px;
+}
+
+.mega-fatty:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -160px -216px;
+    background-size: 224px 350px;
+}
+
+.mega-fatty-ii:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -192px -216px;
+    background-size: 224px 350px;
+}
+
+/* row 11 */
+.mega-gurdy:after {
+    background: url(../resources/gfx/ui/death_bosses.png) 0px -240px;
+    background-size: 224px 350px;
+}
+
+.dark-one:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -32px -240px;
+    background-size: 224px 350px;
+}
+
+.dark-one-ii:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -64px -240px;
+    background-size: 224px 350px;
+}
+
+.polycephalus:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -96px -240px;
+    background-size: 224px 350px;
+}
+
+.mega-fred:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -128px -240px;
+    background-size: 224px 350px;
+}
+
+.angel:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -160px -240px;
+    background-size: 224px 350px;
+}
+
+.the-lamb:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -192px -240px;
+    background-size: 224px 350px;
+}
+
+/* row 12 */
+.mega-satan:after {
+    background: url(../resources/gfx/ui/death_bosses.png) 0px -264px;
+    background-size: 224px 350px;
+}
+
+.mega-satan-p2:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -32px -264px;
+    background-size: 224px 350px;
+}
+
+.the-stain:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -64px -264px;
+    background-size: 224px 350px;
+}
+
+.brownie:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -96px -264px;
+    background-size: 224px 350px;
+}
+
+.the-forsaken:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -128px -264px;
+    background-size: 224px 350px;
+}
+
+.little-horn:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -160px -264px;
+    background-size: 224px 350px;
+}
+
+.rag-man:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -192px -264px;
+    background-size: 224px 350px;
+}
+
+/* row 13 */
+.ultra-greed:after {
+    background: url(../resources/gfx/ui/death_bosses.png) 0px -288px;
+    background-size: 224px 350px;
+}
+
+.hush:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -32px -288px;
+    background-size: 224px 350px;
+}
+
+.dangle:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -64px -288px;
+    background-size: 224px 350px;
+}
+
+.the-frail:after {
+    background: url(../resources/gfx/ui/death_bosses.png) -96px -288px;
+    background-size: 224px 350px;
+}
+
+/* not included in death_bosses.png: gurglings and turdlings */
+.gurglings:after {
+    background: url(../resources/gfx/ui/death_enemies.png) -64px -332px;
+    background-size: 256px 512px;
+}
+
+.turdling:after {
+    background: url(../resources/gfx/ui/death_enemies.png) -224px -144px;
+    background-size: 256px 512px;
+}

@@ -8,6 +8,7 @@
     -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/app.css" rel="stylesheet">
+    <link href="./css/bosses.css" rel="stylesheet">
     <link href="./css/itemlist.css" rel="stylesheet">
     <link href="./css/stagelist.css" rel="stylesheet">
     <link href="./css/transformations.css" rel="stylesheet">
@@ -30,17 +31,17 @@
     </section>
     <section class="main-container draggable">
         <div>
-            <span class="text-muted">Seed: 
+            <span class="text-muted">Seed:
                 <span id="seed" class="text-danger text-bold" data-toggle="tooltip" data-html="true" data-placement="top" data-title="Click to Copy!" data-clicked-title="Copied!"></span>
                 <div class="transformation-container">
-                    <img src="gfx/ui/stage/playerportraitbig_01_isaac.png" class="player" />
+                    <img src="resources/gfx/ui/stage/playerportraitbig_01_isaac.png" class="player" />
                 </div>
             </span>
         </div>
-        <div class="col-xs-11">
+        <div class="content-left">
             <ul class="item-list"></ul>
         </div>
-        <div class="col-xs-1">
+        <div class="content-right">
             <ul class="stage-list pull-right"></ul>
         </div>
         <div class="modal fade" id="settings-modal" tabindex="-1" role="dialog">
@@ -52,6 +53,7 @@
                             <h4 class="modal-title">Settings</h4>
                         </div>
                         <div class="modal-body">
+                                <!--
                                 <div class="form-group">
                                     <label for="upload_data">
                                         Sync to isaactracker.com
@@ -66,6 +68,7 @@
                                     <input type="text" class="disabled" disabled="disabled" id="isaactracker_key" name="isaactracker_key" value="" />
                                     <span id="twitch-disconnect" class="form-control-feedback"><span class="badge">&times;</span></span>
                                 </div>
+                                -->
                                 <div class="form-group">
                                     <label for="display_spacebar_items">
                                         Display Spacebar Items
@@ -105,16 +108,15 @@
             </div>
         </div>
     </section>
-    <script src="./js/socket.io.js"></script>
+    <!-- <script src="./js/socket.io.js"></script> -->
     <script>
         var gui = require('nw.gui');
         var win = gui.Window.get(),
             settings = require('./libs/settings').init(gui.App.dataPath),
-            semver = require('semver'),
-            isaac_tracker;
+            semver = require('semver');
         document.title = gui.App.manifest.name + " " + gui.App.manifest.version;
         $(function () {
-            
+
             var dragging = false,
                 mouse_x, mouse_y, win_x, win_y;
 
@@ -149,7 +151,7 @@
             $(document).on('mouseup', function () {
                 dragging = false;
             });
-            
+
             var click_through_list = {
                 'ul': true,
                 'div': true,
@@ -158,7 +160,7 @@
             $('*').on('mousedown', function(e) {
                 e = e.originalEvent || e;
                 if (!$(e.target).hasClass('draggable') && !click_through_list[e.target.tagName.toLowerCase()]) {
-                    return e.stopPropagation(); 
+                    return e.stopPropagation();
                 }
                 e.preventDefault();
                 dragging = true;
@@ -168,7 +170,7 @@
                 win_y = win.y;
             });
         });
-        
+
         var makeToolTip = function () {
             $('[data-toggle="tooltip"]').tooltip();
         };
@@ -178,7 +180,7 @@
                 makeToolTip();
             }
         };
-        
+
         //settings and copy related
         var execute_copy = function (element) {
             var input = document.createElement('textarea');
@@ -189,14 +191,14 @@
             document.execCommand('Copy');
             input.remove();
         };
-        
+
         var check_for_updates = function() {
             if (settings.get('check_for_updates')) {
                 $.ajax({
                     url: 'https://api.github.com/repos/adewey/isaactracker-nw/releases/latest',
                     success: function(resp) {
                         var version = resp.tag_name;
-                        $('#version').val(version);
+                        $('#version').prop('value', version);
                         if (semver.gt(version, gui.App.manifest.version)) {
                             $('#download-link').html('Download Latest Version');
                             $('#download-link').attr('href', resp.html_url);
@@ -233,7 +235,7 @@
                     $('#twitch-disconnect').hide();
                     $('#isaactracker_key').hide();
                 }
-                
+
                 $('#settings-modal').modal('show');
             });
             $('#twitch-disconnect').on('click', function(e) {
@@ -276,62 +278,58 @@
                 $('#settings-modal').modal('hide');
             });
             makeToolTip();
-            isaac_log_tracker.start();
+            isaaclog.start();
         });
-        
-        // tracker related
-        var items = require('./libs/items'),
-            players = require('./libs/players'),
-            stages = require('./libs/stages');
 
-        var isaac_log_tracker = require('isaac-log-tracker'),
-            isaac_tracker;
-        
-        var should_update = function() {
-            if (!settings.get('upload_data') || !settings.get('isaactracker_key')) {
-                return false;
-            }
-            return true;
-        };
-        
-        var message_queue = [];
-        var handle_messages = function() {
-            if (message_queue.length == 0 || !should_update()) {
-                return;
-            }
-            var jsonObj = message_queue.shift();
-            try {
-                isaac_tracker.emit('update', jsonObj);
-            }
-            catch(e) {
-                console.log(e);
-                if (isaac_tracker) {
-                    isaac_tracker.close()
-                    isaac_tracker = isaac_tracker.destroy();
-                }
-                isaac_tracker = io.connect('http://io.isaactracker.com');
-                isaac_tracker.emit('update', jsonObj);
-            }
-        };
-        setInterval(handle_messages, 500);
-        
-        var send_message = function(event, data) {
-            if (!should_update()) {
-                return;
-            }
-            var jsonObj = data || {};
-            jsonObj.stream_key = settings.get('isaactracker_key');
-            jsonObj.version = gui.App.manifest.version;
-            jsonObj.event = event;
-            message_queue.push(jsonObj);
-        };
-        
+        // tracker related
+        var resources = require('./libs/resources');
+        var isaaclog = require('isaac-log');
+
+        // var should_update = function() {
+        //     if (!settings.get('upload_data') || !settings.get('isaactracker_key')) {
+        //         return false;
+        //     }
+        //     return true;
+        // };
+
+        // var message_queue = [];
+        // var handle_messages = function() {
+        //     if (message_queue.length == 0 || !should_update()) {
+        //         return;
+        //     }
+        //     var jsonObj = message_queue.shift();
+        //     try {
+        //         isaac_tracker.emit('update', jsonObj);
+        //     }
+        //     catch(e) {
+        //         console.log(e);
+        //         if (isaac_tracker) {
+        //             isaac_tracker.close()
+        //             isaac_tracker = isaac_tracker.destroy();
+        //         }
+        //         isaac_tracker = io.connect('http://io.isaactracker.com');
+        //         isaac_tracker.emit('update', jsonObj);
+        //     }
+        // };
+        // setInterval(handle_messages, 500);
+        //
+        // var send_message = function(event, data) {
+        //     if (!should_update()) {
+        //         return;
+        //     }
+        //     var jsonObj = data || {};
+        //     jsonObj.stream_key = settings.get('isaactracker_key');
+        //     jsonObj.version = gui.App.manifest.version;
+        //     jsonObj.event = event;
+        //     message_queue.push(jsonObj);
+        // };
+
         var active_touches = [],
             transformations = {},
             stage_floors = [" XL", " II", " I"],
             current_stage,
             current_floor;
-        
+
         var set_stage = function (stage, floor, xl) {
             var stage_id = Number(stage.id);
             if (stage_id == 25 || (stage_id < 18 && floor > 6)) {
@@ -347,22 +345,22 @@
 
             $('.stage').removeClass('in');
             var stage_element = $($('.stage')[floor - 1]);
-            
+
             var stage_title = stage.name;
             if (floor < 9) {
                 stage_title += stage_floors[1 + (floor % 2) - xl];
-            } 
+            }
             set_title(stage_element, stage_title, true);
             stage_element.addClass(stage.name.toLowerCase().replace(" ", "-"));
             stage_element.addClass('in');
-            
+
             if (xl) {
                 stage_element.addClass('xl');
             }
         };
 
-        isaac_log_tracker.on('seedEvent', function(raw, seed) {
-            send_message('seedEvent', {seed: seed});
+        isaaclog.on('seedEvent', function(raw, seed) {
+            //send_message('seedEvent', {seed: seed});
             active_touches = [];
             transformations = {};
             $('#seed').html(seed);
@@ -375,27 +373,28 @@
             }
         });
 
-        isaac_log_tracker.on('playerEvent', function(raw, player_id) {
-            var player = players(player_id || 0);
-            send_message('playerEvent', {player: player});
+        isaaclog.on('playerEvent', function(raw, player_id) {
+            var player = resources.player_from_id(player_id || 0);
+            //send_message('playerEvent', {player: player});
             if (player && player.bigportrait) {
-                $('.player').attr("src", "gfx/ui/stage/" + player.bigportrait.toLowerCase());
+                $('.player').attr("src", "resources/gfx/ui/stage/" + player.bigportrait.toLowerCase());
             }
         });
 
-        isaac_log_tracker.on('levelEvent', function(raw, floor, stage_id, stage_type) {
-            var stage = stages(stage_id);
-            send_message('levelEvent', {floor: floor, stage: stage, stage_type: stage_type});
+        isaaclog.on('levelEvent', function(raw, floor, stage_id, stage_type) {
+            var stage = resources.stage_from_id(stage_id);
+            console.log('levelEvent', stage_id, stage);
+            //send_message('levelEvent', {floor: floor, stage: stage, stage_type: stage_type});
             set_stage(stage, floor);
         });
 
-        isaac_log_tracker.on('collectibleEvent', function(raw, item_id, item_name) {
-            var item = items(item_id);
-            
+        isaaclog.on('collectibleEvent', function(raw, item_id, item_name) {
+            var item = resources.item_from_id(item_id);
+
             if (!settings.get('display_spacebar_items') && item.state == "active") {
                 return;
             }
-            send_message('collectibleEvent', {item: item});
+            //send_message('collectibleEvent', {item: item});
             var li_item = $('#item-' + item.id);
             if (li_item.length > 0) {
                 if (item.state == "active") {
@@ -410,10 +409,10 @@
             }
             var tempHolder = "";
             tempHolder += "<li class='" + item.state +"' id='item-" + item.id + "'>";
-            tempHolder += '<img src="gfx/items/collectibles/' + item.gfx.toLowerCase() + '" data-id="' + item.id + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<h4>' + item.name + '</h4><h5>' + item.description + '</h5>" />';
+            tempHolder += '<img src="resources/gfx/items/collectibles/' + item.gfx.toLowerCase() + '" data-id="' + item.id + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<h4>' + item.name + '</h4><h5>' + item.description + '</h5>" />';
             tempHolder += "</li>";
             $('.item-list').append(tempHolder);
-            
+
             if (item.transformation) {
                 if (item.state != "active" || (item.state == "active" && active_touches[item.id] == undefined)) {
                     if (item.state == "active") {
@@ -425,7 +424,7 @@
                     if (transformations[item.transformation] <= 3) {
                         var transformation = item.transformation,
                             count = transformations[item.transformation];
-                        
+
                         var c = 'one';
                         if (count == 2) {
                             c = 'two';
@@ -442,37 +441,53 @@
             makeToolTip();
         });
 
-        isaac_log_tracker.on('curseEvent', function(raw, curse) {
-            send_message('curseEvent', {curse: curse});
+        isaaclog.on('curseEvent', function(raw, curse) {
+            //send_message('curseEvent', {curse: curse});
             if (curse.indexOf('Labyrinth') != -1) {
                 set_title($('.stage.in'), '', true);
                 set_stage(current_stage, current_floor + 1, true);
             }
         });
-        
-        //twitch connect logic
-        var socket_io;
-        $('#twitch-connect').click(function() {
-            if (socket_io) {
-                socket_io.close();
+
+        isaaclog.on('bossDeathEvent', function(raw, boss_id) {
+            var boss = resources.boss_from_id(boss_id);
+            //todo: implement putting boss on the thingy!
+            console.log('bossDeathEvent', boss_id, boss);
+            var current_stage_element = $('.stage.in');
+            if (current_stage_element.hasClass('xl')) {
+                var previous_sibling = current_stage_element.prev('.stage');
+                if (!previous_sibling.hasClass('boss')) {
+                    current_stage_element = previous_sibling;
+                }
             }
-            socket_io = require('socket.io')(27462);
-            socket_io.on('connection', function(client) {
-                client.on('register', function(isaactracker_key) {
-                    settings.set('isaactracker_key', isaactracker_key);
-                    settings.save();
-                    $('#twitch-connect').hide();
-                    $('#twitch-disconnect').show();
-                    $('#isaactracker_key').val(isaactracker_key);
-                    $('#isaactracker_key').show();
-                    socket_io.close();
-                    window.focus();
-                });
-                client.on('disconnect', function() {
-                    socket_io.close();
-                });
-            });
-        })
+            current_stage_element.addClass('boss');
+            current_stage_element.addClass(boss.slug);
+            //send_message('bossDeathEvent', {boss: boss});
+        });
+
+        //twitch connect logic
+        // var socket_io;
+        // $('#twitch-connect').click(function() {
+        //     if (socket_io) {
+        //         socket_io.close();
+        //     }
+        //     socket_io = require('socket.io')(27462);
+        //     socket_io.on('connection', function(client) {
+        //         client.on('register', function(isaactracker_key) {
+        //             settings.set('isaactracker_key', isaactracker_key);
+        //             settings.save();
+        //             $('#twitch-connect').hide();
+        //             $('#twitch-disconnect').show();
+        //             $('#isaactracker_key').val(isaactracker_key);
+        //             $('#isaactracker_key').show();
+        //             socket_io.close();
+        //             window.focus();
+        //         });
+        //         client.on('disconnect', function() {
+        //             socket_io.close();
+        //         });
+        //     });
+        // })
     </script>
 </body>
 </html>

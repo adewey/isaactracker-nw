@@ -24,13 +24,13 @@ var paths = {
         './node_modules/**',
         './vendor/**',
         './**/*.html',
+        './**/*.html',
         './css/**',
         './fonts/**',
         './resources/**',
-        './gfx/**',
         './libs/**',
         './js/**',
-        './clr_examples/**',
+        './*.png',
     ],
 }
 
