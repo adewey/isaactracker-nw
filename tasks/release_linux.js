@@ -27,10 +27,6 @@ var init = function () {
     return Q();
 };
 
-var copyRuntime = function () {
-    return projectDir.copyAsync('node_modules/nw/nwjs', readyAppDir.path(), { overwrite: true });
-};
-
 var copyBuiltApp = function () {
     return projectDir.copyAsync('build', readyAppDir.path(), { overwrite: true });
 };
@@ -38,16 +34,18 @@ var copyBuiltApp = function () {
 var packToFile = function () {
     var deferred = Q.defer();
 
-    var fileName = packName + ".nw";
-    var path = releasesDir.path(fileName);
+    var zipFileName = packName + ".nw";
+    var zipPath = tmpDir.path(zipFileName);
+    var outPath = releasesDir.path(packName);
 
     gulpUtil.log('Creating package...');
 
     // Counting size of the app in KiB
     var appSize = Math.round(readyAppDir.inspectTree('.').size / 1024);
 
-    // Build the package...
-    childProcess.exec('cat ' + nw.findPath() + ' ' + path + ' > ' + packDir.path() + ' && chmod +x ' + packDir.path(),
+    // Build the zip...
+    childProcess.execSync('zip ' + zipPath + ' ' + packDir.path());
+    childProcess.execSync('cat '+ nw.findpath() + ' ' + zipPath + ' > ' + outPath + ' && chmod +x ' + outPath,
         function (error, stdout, stderr) {
             if (error || stderr) {
                 console.log("ERROR while building linux package:");
@@ -68,7 +66,6 @@ var cleanClutter = function () {
 
 module.exports = function () {
     return init()
-    .then(copyRuntime)
     .then(copyBuiltApp)
     .then(packToFile)
     .then(cleanClutter);
